@@ -1,0 +1,127 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.small-btn {
+  color: #fff;
+  display: inline-block;
+  padding: 4px;
+  &:hover {
+    color: white;
+    text-decoration: none;
+  }
+}
+
+.abtn-plus {
+  width: 20%;
+  text-align: center;
+  padding: 10px;
+  margin: 0;
+  display: inline-block;
+  color: #fff;
+  background: #004e00;
+  &:hover {
+    color: white;
+    text-decoration: none;
+  }
+}
+
+.mbtm-3 {
+  margin-bottom: 40px;
+}
+
+/* Framework */
+
+.four-grids {
+  background: #fff;
+  padding: 4em 3em;
+  text-align: center;
+}
+
+.four-grid {
+  display: inline-block;
+  margin-bottom: 40px;
+}
+.icon i {
+  font-size: 1.5em;
+  border-radius: 62px;
+  border: 3px solid #fff;
+  padding: 1em;
+  background: #34495e;
+  color: #fff;
+}
+
+i.user {
+  background: #68b828;
+}
+i.align-justify {
+  background: #7c38bc;
+}
+i.bell {
+  background: #f7aa47;
+}
+i.shopping-cart {
+  background: #0e62c7;
+}
+.four-grid1 {
+  background: #68b828;
+
+}
+.four-grid2 {
+  background: #7c38bc;
+
+}
+.four-grid4 {
+  background: #0e62c7;
+}
+.four-grid3 {
+  background: #f7aa47;
+}
+.icon i {
+  margin-top: -1.8em;
+}
+.four-grid h3 {
+  font-size: 1.2em;
+  font-family: 'Comfortaa', cursive;
+  padding: 1em 0 0.5em;
+  color:#fff;
+}
+.four-grid h4 {
+  font-size: 2em;
+  font-family: 'Comfortaa', cursive;
+  color:#fff;
+  padding-bottom: .5em;
+  font-weight: 600;
+}
+.four-grid1 a,.four-grid2 a ,.four-grid3 a,.four-grid4 a{
+  font-size: 1em;
+  color: #fff;
+  box-shadow: inset 0 -50px 0 0 rgba(255,255,255,.1);
+  display: block;
+  padding: .5em;
+  margin-top: 1em;
+  text-decoration:none;
+}
+
+
+.more-grids p {
+  font-size: 1em;
+  line-height: 2em;
+  margin: 1.5em;
+}
+.more-grids h3 {
+  font-size: 1.4em;
+  color:#0e62c7;
+  margin-left:1em;
+}
