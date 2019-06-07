@@ -2036,7 +2036,6 @@ Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_0___default.a);
         cats.push(JSON.parse(JSON.stringify(components[comp].$data)));
       }
 
-      console.log(cats);
       this.productData = JSON.stringify(cats);
       this.jtotal = JSON.stringify(this.total);
     },
@@ -2155,34 +2154,36 @@ __webpack_require__.r(__webpack_exports__);
     addField: function addField() {
       this.fields.push({
         id: '',
-        qty: 0,
+        available: 0,
         real_cost: 0,
         price: 0,
-        tcost: 0,
-        tprice: 0,
+        total_cost: 0,
+        total_price: 0,
+        profit: 0,
         note: ''
       });
     },
     calcFields: function calcFields(data) {
-      data.tprice = data.price * data.qty;
-      data.tcost = data.real_cost * data.qty;
+      data.total_price = data.price * data.available;
+      data.total_cost = data.real_cost * data.available;
+      data.profit = data.total_price - data.total_cost;
       return data;
     },
     calc: function calc() {
-      var qty = 0,
-          tprice = 0,
-          tspent = 0;
+      var available = 0,
+          total_price = 0,
+          total_cost = 0;
 
       for (var afield in this.fields) {
         var data = this.fields[afield];
         var result = this.calcFields(data);
-        qty += +data.qty;
-        tprice += result.tprice;
-        tspent += result.tcost;
+        available += +data.available;
+        total_price += result.total_price;
+        total_cost += result.total_cost;
       }
 
-      this.overall.qty = qty, this.overall.total_price = tprice, this.overall.total_spending = tspent;
-      this.overall.profit = tprice - tspent;
+      this.overall.qty = available, this.overall.total_price = total_price, this.overall.total_spending = total_cost;
+      this.overall.profit = total_price - total_cost;
     },
     correct: function correct(number) {
       return ((+number).toFixed(2) + ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
@@ -56097,17 +56098,17 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model.lazy",
-                        value: field.qty,
-                        expression: "field.qty",
+                        value: field.available,
+                        expression: "field.available",
                         modifiers: { lazy: true }
                       }
                     ],
                     staticClass: "form-control",
                     attrs: { type: "number" },
-                    domProps: { value: field.qty },
+                    domProps: { value: field.available },
                     on: {
                       change: function($event) {
-                        return _vm.$set(field, "qty", $event.target.value)
+                        return _vm.$set(field, "available", $event.target.value)
                       }
                     }
                   })
@@ -56139,19 +56140,19 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: field.tcost,
-                        expression: "field.tcost"
+                        value: field.total_cost,
+                        expression: "field.total_cost"
                       }
                     ],
                     staticClass: "form-control",
                     attrs: { readonly: "", type: "number" },
-                    domProps: { value: field.tcost },
+                    domProps: { value: field.total_cost },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(field, "tcost", $event.target.value)
+                        _vm.$set(field, "total_cost", $event.target.value)
                       }
                     }
                   })
@@ -56183,19 +56184,19 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: field.tprice,
-                        expression: "field.tprice"
+                        value: field.total_price,
+                        expression: "field.total_price"
                       }
                     ],
                     staticClass: "form-control",
                     attrs: { readonly: "", type: "number" },
-                    domProps: { value: field.tprice },
+                    domProps: { value: field.total_price },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(field, "tprice", $event.target.value)
+                        _vm.$set(field, "total_price", $event.target.value)
                       }
                     }
                   })

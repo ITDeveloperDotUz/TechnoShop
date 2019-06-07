@@ -18,10 +18,7 @@ class ProdInController extends Controller
     {
         $data = ProdIn::where('id', 1)->first();
         //dd(json_decode($data->product_data));
-        return view('prodIn.index', [
-            'prods' => json_decode($data->product_data),
-            'summary' => json_decode($data->total)
-        ]);
+        return view('prodIn.index');
     }
 
     /**

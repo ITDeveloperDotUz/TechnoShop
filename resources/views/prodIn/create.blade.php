@@ -40,7 +40,7 @@
                         </tr>
                         </tbody>
                         <tfoot><tr>
-                            <td><button class="btn btn-success" @click.prevent="prepare">Saqlash</button></td>
+                            <td><button class="btn btn-success" @click="prepare">Saqlash</button></td>
                             <td></td></tr></tfoot>
                     </table>
                     <input type="hidden" name="product_data" v-model="productData">
