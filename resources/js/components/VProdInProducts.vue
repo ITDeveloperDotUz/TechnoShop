@@ -14,15 +14,15 @@
                             <input type="text" v-model="field.note" class="form-control">
                         </div>
                         <div class="col-md-2">
-                            <input type="number" v-model.lazy="field.qty" class="form-control">
+                            <input type="number" v-model.lazy="field.available" class="form-control">
                         </div>
                         <div class="col-md-2">
                             <input type="number" v-model.lazy="field.real_cost" class="form-control">
-                            <input readonly type="number" v-model="field.tcost" class="form-control">
+                            <input readonly type="number" v-model="field.total_cost" class="form-control">
                         </div>
                         <div class="col-md-2">
                             <input type="number" v-model.lazy="field.price" class="form-control">
-                            <input readonly type="number" v-model="field.tprice" class="form-control">
+                            <input readonly type="number" v-model="field.total_price" class="form-control">
                         </div>
                         <div class="col-md-1">
                             <button @click.prevent="removeField(key)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
@@ -70,32 +70,34 @@
             addField(){
                 this.fields.push({
                         id: '',
-                        qty: 0,
+                        available: 0,
                         real_cost: 0,
                         price: 0,
-                        tcost: 0,
-                        tprice: 0,
+                        total_cost: 0,
+                        total_price: 0,
+                        profit: 0,
                         note: '',
                 });
             },
             calcFields(data){
-                data.tprice = data.price * data.qty
-                data.tcost = data.real_cost * data.qty
+                data.total_price = data.price * data.available
+                data.total_cost = data.real_cost * data.available
+                data.profit =  data.total_price - data.total_cost
                 return data;
             },
             calc(){
-                let qty = 0, tprice = 0, tspent = 0;
+                let available = 0, total_price = 0, total_cost = 0;
                 for(let afield in this.fields){
                     let data = this.fields[afield];
                     let result = this.calcFields(data);
-                    qty += +data.qty;
-                    tprice += result.tprice;
-                    tspent += result.tcost;
+                    available += +data.available;
+                    total_price += result.total_price;
+                    total_cost += result.total_cost;
                 }
-                this.overall.qty = qty,
-                this.overall.total_price = tprice,
-                this.overall.total_spending = tspent;
-                this.overall.profit = tprice - tspent;
+                this.overall.qty = available,
+                this.overall.total_price = total_price,
+                this.overall.total_spending = total_cost;
+                this.overall.profit = total_price - total_cost;
             },
             correct(number){
                 return (((+number).toFixed(2)+ ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
