@@ -54,6 +54,8 @@
                 for(let comp in components){
                     cats.push(JSON.parse(JSON.stringify(components[comp].$data)))
                 }
+                console.log(cats);
+
                 this.productData = JSON.stringify(cats)
                 this.jtotal = JSON.stringify(this.total)
             },

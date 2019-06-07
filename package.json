@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "@alfsnd/vue-bootstrap-select": "^0.4.3",
+        "bootstrap-vue": "^2.0.0-rc.22",
         "moment": "^2.24.0",
         "vue-select": "^3.1.0"
     }

@@ -2036,6 +2036,7 @@ Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_0___default.a);
         cats.push(JSON.parse(JSON.stringify(components[comp].$data)));
       }
 
+      console.log(cats);
       this.productData = JSON.stringify(cats);
       this.jtotal = JSON.stringify(this.total);
     },
@@ -2153,7 +2154,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     addField: function addField() {
       this.fields.push({
-        type: '',
+        id: '',
         qty: 0,
         real_cost: 0,
         price: 0,
@@ -56026,7 +56027,37 @@ var render = function() {
                 _c("div", { staticClass: "col-md-2" }, [
                   _c(
                     "select",
-                    { staticClass: "form-control", attrs: { id: "" } },
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: field.id,
+                          expression: "field.id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            field,
+                            "id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
                     _vm._l(_vm.products, function(product) {
                       return _c("option", { domProps: { value: product.id } }, [
                         _vm._v(_vm._s(product.name))

@@ -49,7 +49,8 @@ class ProdInController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->input());
+        dd(json_decode($request->input('product_data')));
+
         $prodIn = new ProdIn();
         $prodIn->fill($request->input());
         $prodIn->save();

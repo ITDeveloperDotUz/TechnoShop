@@ -6,7 +6,7 @@
                 <div v-for="(field, key) in fields" class="form-group" :id="'pr' + field.id + 'cat' + category.value">
                     <div class="row">
                         <div class="col-md-2">
-                            <select class="form-control" id="">
+                            <select v-model="field.id" class="form-control" id="">
                                 <option v-for="product in products" :value="product.id">{{ product.name }}</option>
                             </select>
                         </div>
@@ -69,7 +69,7 @@
             },
             addField(){
                 this.fields.push({
-                        type: '',
+                        id: '',
                         qty: 0,
                         real_cost: 0,
                         price: 0,
