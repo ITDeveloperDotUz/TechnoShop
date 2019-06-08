@@ -9,10 +9,26 @@
 @import '~bootstrap/scss/bootstrap';
 
 .navbar-laravel {
-  background-color: #fff;
+  background-color: rgba(256,256,256, 0.7);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(5px)
 }
 
+body {
+  background: url('/images/bg.jpg') no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+
+}
+
+
+.bgb-o-5 {
+  background:rgba(0,0,0, 0.5)!important;
+}
+
+.bgw-o-5 {
+  background:rgba(256,256,256, 0.5)!important;
+}
 .small-btn {
   color: #fff;
   display: inline-block;
@@ -44,14 +60,17 @@
 /* Framework */
 
 .four-grids {
-  background: #fff;
-  padding: 4em 3em;
+  display: grid;
+  background: none;
+  //padding: 4em 3em;
   text-align: center;
+  //grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 2.5%;
+  grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
 }
 
 .four-grid {
-  display: inline-block;
-  margin-bottom: 40px;
+
 }
 .icon i {
   font-size: 1.5em;
@@ -75,18 +94,18 @@ i.shopping-cart {
   background: #0e62c7;
 }
 .four-grid1 {
-  background: #68b828;
+  background: rgba(104, 184, 40, 0.5);
 
 }
 .four-grid2 {
-  background: #7c38bc;
+  background: rgba(124, 56, 188, 0.5);
 
 }
 .four-grid4 {
-  background: #0e62c7;
+  background: rgba(14, 98, 199, 0.5);
 }
 .four-grid3 {
-  background: #f7aa47;
+  background: rgba(247, 170, 71, 0.5);
 }
 .icon i {
   margin-top: -1.8em;

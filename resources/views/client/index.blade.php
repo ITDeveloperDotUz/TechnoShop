@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <table class="table table-striped">
+            <table class="table table-striped bg-light">
                 <thead>
                 <tr>
                     <td>Ф.И.Ш</td>
