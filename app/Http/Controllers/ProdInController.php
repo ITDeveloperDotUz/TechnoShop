@@ -18,10 +18,7 @@ class ProdInController extends Controller
     {
         $data = ProdIn::where('id', 1)->first();
         //dd(json_decode($data->product_data));
-        return view('prodIn.index', [
-            'prods' => json_decode($data->product_data),
-            'summary' => json_decode($data->total)
-        ]);
+        return view('prodIn.index');
     }
 
     /**
@@ -49,7 +46,12 @@ class ProdInController extends Controller
      */
     public function store(Request $request)
     {
-        dd(json_decode($request->input('product_data')));
+        $pdata = json_decode($request->input('product_data'))[0];
+        $products = Product::all();
+
+        foreach ($pdata->fields as $field) {
+            $products->where('id', $field->id)->first()->fill((array) $field)->save();
+        }
 
         $prodIn = new ProdIn();
         $prodIn->fill($request->input());
