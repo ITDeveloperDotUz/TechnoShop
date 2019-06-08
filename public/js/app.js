@@ -2218,6 +2218,10 @@ __webpack_require__.r(__webpack_exports__);
       category: '',
       real_cost: '',
       price: '',
+      available: 0,
+      total_cost: '',
+      total_price: '',
+      profit: '',
       info: {}
     };
   },

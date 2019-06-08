@@ -8,6 +8,10 @@
                 category: '',
                 real_cost: '',
                 price: '',
+                available: 0,
+                total_cost: '',
+                total_price: '',
+                profit: '',
                 info: {}
             }
         },

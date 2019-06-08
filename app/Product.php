@@ -9,7 +9,7 @@ class Product extends Model
     protected $fillable = [
         'name',
         'description',
-        'category',
+        'category_id',
         'details',
         'real_cost',
         'available',
@@ -17,5 +17,10 @@ class Product extends Model
         'total_cost',
         'total_price',
         'profit',
-        'image'];
+        'image'
+    ];
+
+    public function category(){
+        return $this->belongsTo('App\Category');
+    }
 }

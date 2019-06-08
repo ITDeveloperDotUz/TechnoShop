@@ -25,7 +25,7 @@
                             <div class="form-group">
                                 <label class="control-label col" for="category">Махсулот тури</label>
                                 <div class="col-md-8">
-                                    <select class="form-control" @change="renderCategory" required name="category" v-model="category" id="category">
+                                    <select class="form-control" @change="renderCategory" required name="category_id" v-model="category" id="category">
                                         @foreach($cats as $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach

@@ -16,9 +16,19 @@ class ProdInController extends Controller
      */
     public function index()
     {
-        $data = ProdIn::where('id', 1)->first();
-        //dd(json_decode($data->product_data));
-        return view('prodIn.index');
+        $prods = Product::all();
+        $cats = Category::all();
+
+        foreach ($cats as $key => $cat){
+            $cat->calculate();
+            if(!$cat->quantity){
+                $cats->forget($key);
+            }
+        }
+        return view('prodIn.index', [
+            'prods' => $prods,
+            'cats' => $cats
+        ]);
     }
 
     /**
@@ -34,7 +44,7 @@ class ProdInController extends Controller
     }
 
     public function getbycategory($id){
-        $products = Product::where('category', $id)->get();
+        $products = Product::where('category_id', $id)->get();
         return json_encode($products);
     }
 
@@ -46,13 +56,22 @@ class ProdInController extends Controller
      */
     public function store(Request $request)
     {
-        $pdata = json_decode($request->input('product_data'))[0];
+        $pdata = json_decode($request->input('product_data'));
         $products = Product::all();
-
-        foreach ($pdata->fields as $field) {
-            $products->where('id', $field->id)->first()->fill((array) $field)->save();
+        foreach ($pdata as $pdatum) {
+            foreach ($pdatum->fields as $field) {
+                $pr = $products->where('id', $field->id)->first();
+                if($pr->available){
+                    $field->available += $pr->available;
+                    $field->total_cost = $pr->available * $field->real_cost;
+                    $field->total_price = $pr->available * $field->price;
+                    $field->profit = $field->total_price - $field->total_cost;
+                    $pr->fill((array) $field)->save();
+                } else {
+                    $pr->fill((array) $field)->save();
+                }
+            }
         }
-
         $prodIn = new ProdIn();
         $prodIn->fill($request->input());
         $prodIn->save();
