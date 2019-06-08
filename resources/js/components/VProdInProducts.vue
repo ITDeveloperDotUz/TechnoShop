@@ -95,8 +95,8 @@
                     total_cost += result.total_cost;
                 }
                 this.overall.qty = available,
-                    this.overall.total_price = total_price,
-                    this.overall.total_spending = total_cost;
+                this.overall.total_price = total_price,
+                this.overall.total_spending = total_cost;
                 this.overall.profit = total_price - total_cost;
             },
             correct(number){
