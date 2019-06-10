@@ -25,8 +25,13 @@
                         <b>Умумий харажат</b> - {{ $obj->total_cost }}
                     </div>
                 </div>
-                <div id="collapse{{ $obj->id }}" class="card-body collapse" role="tabpanel" aria-labelledby="#heading{{ $obj->id }}"
-                     data-parent="#accordionEx78">
+                <div
+                        id="collapse{{ $obj->id }}"
+                        class="card-body collapse"
+                        role="tabpanel"
+                        aria-labelledby="#heading{{ $obj->id }}"
+                        data-parent="#accordionEx78"
+                >
                     <div class="">
                         <div class="table mx-3">
                             <table class="table table-hover mb-0">

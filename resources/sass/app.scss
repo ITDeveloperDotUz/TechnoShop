@@ -9,9 +9,8 @@
 @import '~bootstrap/scss/bootstrap';
 
 .navbar-laravel {
-  background-color: rgba(256,256,256, 0.7);
+  background-color: rgba(256, 256, 256, 0.7);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-  backdrop-filter: blur(5px)
 }
 
 body {
@@ -55,19 +54,10 @@ body {
 
 .mbtm-3 {
   margin-bottom: 40px;
+  position: relative;
 }
 
 /* Framework */
-
-.four-grids {
-  display: grid;
-  background: none;
-  //padding: 4em 3em;
-  text-align: center;
-  //grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-gap: 2.5%;
-  grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
-}
 
 .four-grid {
 
@@ -145,10 +135,6 @@ i.shopping-cart {
   margin-left:1em;
 }
 
-.margin-auto {
-  display: table-cell;
-  vertical-align:middle;
-}
 
 .box {
   padding: 5px;

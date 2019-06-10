@@ -1,20 +1,71 @@
 
-// Body
-$body-bg: #f8fafc;
+$white-o: rgba(256,256,256,0.5);
+$gray-o-100: rgba(248, 249, 250, 0.5) !default;
+$gray-o-200: rgba(233, 236, 239, 0.5) !default;
+$gray-o-300: rgba(222, 226, 230, 0.5) !default;
+$gray-o-400: rgba(206, 212, 218, 0.5) !default;
+$gray-o-500: rgba(173, 181, 189, 0.5) !default;
+$gray-o-600: rgba(108, 117, 125, 0.5) !default;
+$gray-o-700: rgba(73, 80, 87, 0.5) !default;
+$gray-o-800: rgba(52, 58, 64, 0.5) !default;
+$gray-o-900: rgba(33, 37, 41, 0.5) !default;
+$black-o: rgba(0,0,0,0.5);
 
-// Typography
-$font-family-sans-serif: "Nunito", sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
 
 // Colors
-$blue: #3490dc;
-$indigo: #6574cd;
-$purple: #9561e2;
-$pink: #f66D9b;
-$red: #e3342f;
-$orange: #f6993f;
-$yellow: #ffed4a;
-$green: #38c172;
-$teal: #4dc0b5;
-$cyan: #6cb2eb;
+$blue-o: rgba(52, 144, 220, 0.5);
+$indigo-o: rgba(101, 116, 205, 0.5);
+$purple-o: rgba(149, 97, 226, 0.5);
+$pink-o: rgba(246, 109, 155, 0.5);
+$red-o: rgba(227, 52, 47, 0.5);
+$orange-o: rgba(246, 153, 63, 0.5);
+$yellow-o: rgba(255, 237, 74, 0.5);
+$green-o: rgba(56, 193, 114, 0.5);
+$teal-o: rgba(77, 192, 181, 0.5);
+$cyan-o: rgba(108, 178, 235, 0.5);
+
+$colors-o: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$colors: map-merge(
+                (
+                        "blue":       $blue-o,
+                        "indigo":     $indigo-o,
+                        "purple":     $purple-o,
+                        "pink":       $pink-o,
+                        "red":        $red-o,
+                        "orange":     $orange-o,
+                        "yellow":     $yellow-o,
+                        "green":      $green-o,
+                        "teal":       $teal-o,
+                        "cyan":       $cyan-o,
+                        "white":      $white-o,
+                        "gray":       $gray-o-600,
+                        "gray-dark":  $gray-o-800
+                ),
+                $colors-o
+);
+
+$primary-o:       $blue-o !default;
+$secondary-o:     $gray-o-600 !default;
+$success-o:       $green-o !default;
+$info-o:          $cyan-o !default;
+$warning-o:       $yellow-o !default;
+$danger-o:        $red-o !default;
+$light-o:         $gray-o-100 !default;
+$dark-o:          $gray-o-800 !default;
+
+$theme-colors-o: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$theme-colors: map-merge(
+                (
+                        "primary":    $primary-o,
+                        "secondary":  $secondary-o,
+                        "success":    $success-o,
+                        "info":       $info-o,
+                        "warning":    $warning-o,
+                        "danger":     $danger-o,
+                        "light":      $light-o,
+                        "dark":       $dark-o
+                ),
+                $theme-colors-o
+);
