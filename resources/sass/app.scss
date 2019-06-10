@@ -8,6 +8,11 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+
+.bg-none {
+  background: none !important;
+}
+
 .navbar-laravel {
   background-color: rgba(256, 256, 256, 0.7);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -19,7 +24,6 @@ body {
   background-size: cover;
 
 }
-
 
 .bgb-o-5 {
   background:rgba(0,0,0, 0.5)!important;

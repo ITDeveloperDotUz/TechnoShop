@@ -26,7 +26,7 @@ $cyan-o: rgba(108, 178, 235, 0.5);
 
 $colors-o: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
-$colors: map-merge(
+$colors-o: map-merge(
                 (
                         "blue":       $blue-o,
                         "indigo":     $indigo-o,
@@ -56,7 +56,7 @@ $dark-o:          $gray-o-800 !default;
 
 $theme-colors-o: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
-$theme-colors: map-merge(
+$theme-colors-o: map-merge(
                 (
                         "primary":    $primary-o,
                         "secondary":  $secondary-o,
