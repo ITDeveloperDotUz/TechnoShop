@@ -1,3 +1,8 @@
+@mixin bg-variant($parent, $color) {
+  #{$parent} {
+    background-color: $color !important;
+  }
+}
 
 $white-o: rgba(256,256,256,0.5);
 $gray-o-100: rgba(248, 249, 250, 0.5) !default;
@@ -69,3 +74,8 @@ $theme-colors-o: map-merge(
                 ),
                 $theme-colors-o
 );
+
+
+@each $color-o, $value in $theme-colors-o {
+  @include bg-variant(".bg-#{$color-o}-o", $value);
+}

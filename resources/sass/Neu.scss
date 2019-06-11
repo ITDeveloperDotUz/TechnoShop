@@ -4,18 +4,15 @@
 .grids {
   display: grid;
   background: none;
-  //padding: 4em 3em;
-  //grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 2.5%;
-  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
   position: relative;
 }
 
 .grids-2 {
   display: grid;
-  background: none;
   grid-gap: 2.5%;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(350px,2fr));
   position: relative;
 }
 
