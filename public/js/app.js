@@ -1986,12 +1986,20 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
   },
   data: function data() {
     return {
+      order_date: '',
       alldata: [],
       clients: [],
       client: 0,
       clientOptions: [],
       products: [],
-      productOptions: []
+      productOptions: [],
+      selectedProducts: {},
+      calculation: {
+        total_price: 0,
+        total_cost: 0,
+        total_profit: 0,
+        total_count: 0
+      }
     };
   },
   mounted: function mounted() {
@@ -2021,8 +2029,6 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       this.clientOptions = cls;
     },
     renderProducts: function renderProducts(products) {
-      var cls = [];
-
       for (var product in products) {
         products[product].label = products[product].name;
         products[product].value = products[product].id;
@@ -2030,8 +2036,46 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
 
       this.productOptions = products;
     },
+    recalculate: function recalculate() {
+      var sp = this.selectedProducts;
+      var calc = this.calculation;
+      calc.total_count = 0;
+      calc.total_profit = 0;
+      calc.total_cost = 0;
+      calc.total_price = 0;
+
+      for (var pr in sp) {
+        calc.total_count += sp[pr].count;
+        calc.total_profit += sp[pr].count * (sp[pr].price - sp[pr].real_cost);
+        calc.total_cost += sp[pr].count * sp[pr].real_cost;
+        calc.total_price += sp[pr].count * sp[pr].price;
+      }
+    },
     updated: function updated(val) {
-      console.log(val);
+      this.selectedProducts[val.id] = val.data;
+      this.recalculate();
+    },
+    c: function c(number) {
+      return ((+number).toFixed(2) + ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    }
+  },
+  watch: {
+    products: {
+      handler: function handler() {
+        var prods = this.products;
+        var sp = this.selectedProducts;
+
+        for (var pr in prods) {} // let prods = this.products;
+        // let sp = this.selectedProducts;
+        // for(let pr in sp){
+        //     if(sp[pr].id == prods){
+        //
+        //     }
+        // }
+        //this.recalculate()
+
+      },
+      deep: true
     }
   }
 });
@@ -2407,8 +2451,8 @@ __webpack_require__.r(__webpack_exports__);
     details: '',
     description: '',
     category: '',
-    real_cost: '',
-    price: '',
+    real_cost: 0,
+    price: 0,
     available: 0,
     total_cost: '',
     total_price: '',
@@ -2425,11 +2469,14 @@ __webpack_require__.r(__webpack_exports__);
     this.update();
   },
   computed: {
-    def_price: function def_price() {
-      return +this.price;
-    },
     computed_price: function computed_price() {
-      return this.def_price * this.count;
+      return this.count * this.price;
+    },
+    computed_profit: function computed_profit() {
+      return this.count * (this.price - this.real_cost);
+    },
+    computed_cost: function computed_cost() {
+      return this.count * this.real_cost;
     }
   },
   methods: {
@@ -2444,10 +2491,22 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     update: function update() {
-      this.$emit('update', this._data);
+      var data = Object.assign({}, this._data, this._props);
+      this.$emit('update', {
+        id: 'product' + this.id,
+        data: data
+      });
     },
     c: function c(number) {
       return ((+number).toFixed(2) + ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    }
+  },
+  watch: {
+    count: {
+      handler: function handler() {
+        this.update();
+      },
+      deep: true
     }
   }
 });
@@ -6949,7 +7008,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.counter[data-v-0066c2ac]{\n    width: 100%;\n    margin: 0;\n}\n.counter .input-number[data-v-0066c2ac] {\n    text-align: center;\n    padding: 2px;\n    min-width: 20px;\n}\n", ""]);
+exports.push([module.i, "\n.counter[data-v-0066c2ac]{\n    width: 100%;\n    margin: 0;\n}\n.counter .input-number[data-v-0066c2ac] {\n    text-align: center;\n    padding: 2px;\n    min-width: 20px;\n    max-width: 80px;\n}\n", ""]);
 
 // exports
 
@@ -56577,7 +56636,7 @@ var render = function() {
             ],
             staticClass: "form-control input-number",
             attrs: {
-              type: "number",
+              type: "text",
               disabled: "",
               value: "1",
               min: "1",
@@ -56616,9 +56675,9 @@ var render = function() {
     _vm._v(" "),
     _c("td", [_c("b", [_vm._v(_vm._s(_vm.c(_vm.computed_price)))])]),
     _vm._v(" "),
-    _c("td", [_vm._v(_vm._s(_vm.name))]),
+    _c("td", [_vm._v(_vm._s(_vm.c(_vm.computed_profit)))]),
     _vm._v(" "),
-    _c("td", [_vm._v(_vm._s(_vm.name))])
+    _c("td", [_vm._v(_vm._s(_vm.c(_vm.computed_cost)))])
   ])
 }
 var staticRenderFns = []

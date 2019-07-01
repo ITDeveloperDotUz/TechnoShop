@@ -9,7 +9,7 @@
                             <span class="fa fa-minus"></span>
                         </button>
                     </span>
-                    <input type="number" disabled v-model="count" class="form-control input-number" value="1" min="1" :max="available">
+                    <input type="text" disabled v-model="count" class="form-control input-number" value="1" min="1" :max="available">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-success btn-number" @click.prevent="add">
                             <span class="fa fa-plus"></span>
@@ -19,8 +19,8 @@
             </div>
         </td>
         <td><b>{{ c(computed_price) }}</b></td>
-        <td>{{ name }}</td>
-        <td>{{ name }}</td>
+        <td>{{ c(computed_profit) }}</td>
+        <td>{{ c(computed_cost) }}</td>
     </tr>
 </template>
 
@@ -33,12 +33,13 @@
             details: '',
             description: '',
             category: '',
-            real_cost: '',
-            price: '',
+            real_cost: 0,
+            price: 0,
             available: 0,
             total_cost: '',
             total_price: '',
             profit: '',
+
         },
         data(){
             return {
@@ -51,11 +52,14 @@
             this.update();
         },
         computed: {
-            def_price(){
-                return +this.price;
-            },
             computed_price(){
-                return this.def_price * this.count
+                return this.count * this.price
+            },
+            computed_profit(){
+                return this.count * (this.price - this.real_cost)
+            },
+            computed_cost(){
+                return this.count * this.real_cost
             }
         },
         methods: {
@@ -70,10 +74,19 @@
                 }
             },
             update(){
-                this.$emit('update',this._data);
+                let data = Object.assign({}, this._data, this._props);
+                this.$emit('update',{id: 'product'+this.id, data});
             },
             c(number){
                 return (((+number).toFixed(2)+ ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
+            }
+        },
+        watch: {
+            count: {
+                handler(){
+                    this.update()
+                },
+                deep: true
             }
         }
     }
@@ -89,5 +102,6 @@
         text-align: center;
         padding: 2px;
         min-width: 20px;
+        max-width: 80px;
     }
 </style>
