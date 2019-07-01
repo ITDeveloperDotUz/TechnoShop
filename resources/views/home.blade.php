@@ -68,7 +68,20 @@
                         </div>
                     </a>
                 </div>
-
+                <div class="four-grid">
+                    <a href="{{ route('orders.index') }}">
+                        <div class="four-grid4">
+                            <div class="icon">
+                                <i class="fa fa-shopping-cart shopping-cart" aria-hidden="true"></i>
+                            </div>
+                            <div class="four-text">
+                                <h3>Буюртмалар</h3>
+                                <h4>26</h4>
+                            </div>
+                            <a href="{{ route('orders.create') }}"><i class="fa fa-plus"></i></a>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
 

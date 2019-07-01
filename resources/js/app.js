@@ -9,6 +9,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 window.moment = require('moment');
+window.$ = window.jQuery;
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -30,6 +31,7 @@ Vue.component('v-product-edit', require('./components/VProductEdit.vue').default
 Vue.component('v-prodin-create', require('./components/VProdInCreate.vue').default);
 Vue.component('v-prodin-products', require('./components/VProdInProducts.vue').default);
 
+Vue.component('v-order-create', require('./components/VOrderCreate.vue').default);
 
 
 /**

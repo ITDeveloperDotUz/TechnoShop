@@ -4,7 +4,12 @@
 @endsection
 @section('content')
     <div class="container">
-        <form id="prodin_form" action="{{ route('product_incomes.store') }}" class="form-horizontal" method="post">
+        <div class="card">
+            <div class="card-header">
+                <h3>Янги кирим</h3>
+            </div>
+            <div class="card-body">
+                <form id="prodin_form" action="{{ route('product_incomes.store') }}" class="form-horizontal" method="post">
             @csrf
             <input id="cats" type="hidden" value="{{ $cats }}">
             <v-prodin-create inline-template>
@@ -51,5 +56,7 @@
                 </div>
             </v-prodin-create>
         </form>
+            </div>
+        </div>
     </div>
 @endsection
