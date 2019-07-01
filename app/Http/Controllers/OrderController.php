@@ -36,7 +36,7 @@ class OrderController extends Controller
     public function getdata($id){
         $cats = Category::all();
         $clients = Client::all();
-        $products = Product::all();
+        $products = Product::where('available', '>=', 1)->get();
 
         return ([
             'cats' => $cats,

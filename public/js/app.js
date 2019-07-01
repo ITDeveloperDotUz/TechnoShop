@@ -2052,7 +2052,7 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       }
     },
     updated: function updated(val) {
-      this.selectedProducts[val.id] = val.data;
+      this.selectedProducts[val.id].count = val.count;
       this.recalculate();
     },
     c: function c(number) {
@@ -2063,17 +2063,14 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
     products: {
       handler: function handler() {
         var prods = this.products;
-        var sp = this.selectedProducts;
+        var sp = this.selectedProducts = {};
 
-        for (var pr in prods) {} // let prods = this.products;
-        // let sp = this.selectedProducts;
-        // for(let pr in sp){
-        //     if(sp[pr].id == prods){
-        //
-        //     }
-        // }
-        //this.recalculate()
+        for (var pr in prods) {
+          var id = 'product' + prods[pr].id;
+          sp[id] = prods[pr];
+        }
 
+        this.recalculate();
       },
       deep: true
     }
@@ -2491,10 +2488,10 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     update: function update() {
-      var data = Object.assign({}, this._data, this._props);
+      //let data = Object.assign({}, this._data, this._props);
       this.$emit('update', {
         id: 'product' + this.id,
-        data: data
+        count: this.count
       });
     },
     c: function c(number) {

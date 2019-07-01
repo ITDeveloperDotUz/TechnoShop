@@ -74,8 +74,8 @@
                 }
             },
             update(){
-                let data = Object.assign({}, this._data, this._props);
-                this.$emit('update',{id: 'product'+this.id, data});
+                //let data = Object.assign({}, this._data, this._props);
+                this.$emit('update',{id: 'product'+this.id, count: this.count});
             },
             c(number){
                 return (((+number).toFixed(2)+ ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ' '));

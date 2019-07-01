@@ -70,7 +70,8 @@
                 }
             },
             updated(val){
-                this.selectedProducts[val.id] = val.data;
+                this.selectedProducts[val.id].count = val.count;
+
                 this.recalculate();
             },
 
@@ -82,20 +83,13 @@
             products: {
                 handler(){
                     let prods = this.products;
-                    let sp = this.selectedProducts
+                    let sp = this.selectedProducts = {};
                     for(let pr in prods){
-
+                        let id = 'product'+prods[pr].id
+                        sp[id] = prods[pr];
                     }
 
-                    // let prods = this.products;
-                    // let sp = this.selectedProducts;
-                    // for(let pr in sp){
-                    //     if(sp[pr].id == prods){
-                    //
-                    //     }
-                    // }
-
-                    //this.recalculate()
+                    this.recalculate()
                 },
                 deep: true
             }
