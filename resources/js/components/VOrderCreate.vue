@@ -23,7 +23,18 @@
                     total_cost: 0,
                     total_profit: 0,
                     total_count: 0,
-                }
+                },
+
+                payments: {},
+                payment_method: 0,
+                payment_type: 0,
+                payment_count: 0,
+                initial_fee: 0,
+                initial_fee_percent: 0,
+                paid_payment: 0,
+                remaining_payment: 0,
+                paid: false,
+                //total_payment: this.calculation.total_price
             }
         },
         mounted(){
@@ -35,6 +46,11 @@
                     this.renderClients(data.clients);
                     this.renderProducts(data.products);
                 });
+        },
+        computed: {
+            total_payment(){
+                return this.calculation.total_price
+            },
         },
         methods: {
             renderClients(clients){
@@ -92,12 +108,50 @@
                     this.recalculate()
                 },
                 deep: true
+            },
+            payment_count: {
+                handler(){
+                    let pms = this.payments;
+                    let pmc = this.payment_count;
+                    let tprice = this.calculation.total_price;
+                    let paid = this.paid_payment;
+                    let ifee = this.initial_fee;
+                    let rpm = this.remaining_payment;
+                    rpm = tprice - ifee;
+                    let monthly_pm = rpm / pmc;
+                    console.log(monthly_pm);
+                    for(let i = 0; i < pmc; i++){
+                        pms['pm'+(i+1)] = {
+                            payment_date: new Date(),
+                            payment_amount: monthly_pm
+                        };
+                    }
+                },
+                deep: true,
             }
         }
     }
 </script>
 <style scoped>
-    .h-scroll {
-        overflow-x: scroll;
+    .form-group input[type="checkbox"] {
+        display: none;
+    }
+
+    .form-group input[type="checkbox"] + .btn-group > label span {
+        width: 20px;
+    }
+
+    .form-group input[type="checkbox"] + .btn-group > label span:first-child {
+        display: none;
+    }
+    .form-group input[type="checkbox"] + .btn-group > label span:last-child {
+        display: inline-block;
+    }
+
+    .form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+        display: inline-block;
+    }
+    .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+        display: none;
     }
 </style>

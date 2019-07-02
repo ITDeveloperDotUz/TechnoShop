@@ -1999,7 +1999,17 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
         total_cost: 0,
         total_profit: 0,
         total_count: 0
-      }
+      },
+      payments: {},
+      payment_method: 0,
+      payment_type: 0,
+      payment_count: 0,
+      initial_fee: 0,
+      initial_fee_percent: 0,
+      paid_payment: 0,
+      remaining_payment: 0,
+      paid: false //total_payment: this.calculation.total_price
+
     };
   },
   mounted: function mounted() {
@@ -2013,6 +2023,11 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
 
       _this.renderProducts(data.products);
     });
+  },
+  computed: {
+    total_payment: function total_payment() {
+      return this.calculation.total_price;
+    }
   },
   methods: {
     renderClients: function renderClients(clients) {
@@ -2071,6 +2086,27 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
         }
 
         this.recalculate();
+      },
+      deep: true
+    },
+    payment_count: {
+      handler: function handler() {
+        var pms = this.payments;
+        var pmc = this.payment_count;
+        var tprice = this.calculation.total_price;
+        var paid = this.paid_payment;
+        var ifee = this.initial_fee;
+        var rpm = this.remaining_payment;
+        rpm = tprice - ifee;
+        var monthly_pm = rpm / pmc;
+        console.log(monthly_pm);
+
+        for (var i = 0; i < pmc; i++) {
+          pms['pm' + (i + 1)] = {
+            payment_date: new Date(),
+            payment_amount: monthly_pm
+          };
+        }
       },
       deep: true
     }
@@ -6986,7 +7022,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.h-scroll[data-v-03e76502] {\n    overflow-x: scroll;\n}\n", ""]);
+exports.push([module.i, "\n.form-group input[type=\"checkbox\"][data-v-03e76502] {\n    display: none;\n}\n.form-group input[type=\"checkbox\"] + .btn-group > label span[data-v-03e76502] {\n    width: 20px;\n}\n.form-group input[type=\"checkbox\"] + .btn-group > label span[data-v-03e76502]:first-child {\n    display: none;\n}\n.form-group input[type=\"checkbox\"] + .btn-group > label span[data-v-03e76502]:last-child {\n    display: inline-block;\n}\n.form-group input[type=\"checkbox\"]:checked + .btn-group > label span[data-v-03e76502]:first-child {\n    display: inline-block;\n}\n.form-group input[type=\"checkbox\"]:checked + .btn-group > label span[data-v-03e76502]:last-child {\n    display: none;\n}\n", ""]);
 
 // exports
 
