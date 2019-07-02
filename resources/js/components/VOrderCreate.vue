@@ -79,18 +79,40 @@
                 calc.total_cost = 0;
                 calc.total_price = 0;
                 for(let pr in sp){
-                     calc.total_count += sp[pr].count;
+                     calc.total_count += (1);
                      calc.total_profit += sp[pr].count * (sp[pr].price - sp[pr].real_cost);
                      calc.total_cost += sp[pr].count * sp[pr].real_cost;
                      calc.total_price += sp[pr].count * sp[pr].price;
+
+                     if(!calc.total_price){
+                         console.log(sp[pr])
+                         console.log(sp[pr].count)
+                         console.log(sp[pr].price)
+                         console.log(sp[pr].real_cost)
+                         console.log(sp[pr].price)
+                     }
                 }
             },
             updated(val){
                 this.selectedProducts[val.id].count = val.count;
-
-                this.recalculate();
+                //this.recalculate();
             },
-
+            calcPayment(){
+                // let pms = this.payments;
+                // let pmc = this.payment_count;
+                // let tprice = this.calculation.total_price;
+                // let paid = this.paid_payment;
+                // let ifee = this.initial_fee;
+                // let rpm = this.remaining_payment;
+                // let monthly_pm = rpm / pmc;
+                // console.log(ifee);
+                // for(let i = 0; i < pmc; i++){
+                //     pms['pm'+(i+1)] = {
+                //         payment_date: new Date(),
+                //         payment_amount: monthly_pm
+                //     };
+                // }
+            },
             c(number){
                 return (((+number).toFixed(2)+ ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
             }
@@ -111,23 +133,15 @@
             },
             payment_count: {
                 handler(){
-                    let pms = this.payments;
-                    let pmc = this.payment_count;
-                    let tprice = this.calculation.total_price;
-                    let paid = this.paid_payment;
-                    let ifee = this.initial_fee;
-                    let rpm = this.remaining_payment;
-                    rpm = tprice - ifee;
-                    let monthly_pm = rpm / pmc;
-                    console.log(monthly_pm);
-                    for(let i = 0; i < pmc; i++){
-                        pms['pm'+(i+1)] = {
-                            payment_date: new Date(),
-                            payment_amount: monthly_pm
-                        };
-                    }
+                    this.calcPayment()
                 },
                 deep: true,
+            },
+            initial_fee: {
+                handler(){
+                    this.calcPayment()
+                },
+                deep: true
             }
         }
     }

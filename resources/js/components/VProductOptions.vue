@@ -29,16 +29,16 @@
         name: "VProductOptions",
         props: {
             name: '',
-            id: '',
+            id: 0,
             details: '',
             description: '',
             category: '',
             real_cost: 0,
             price: 0,
             available: 0,
-            total_cost: '',
-            total_price: '',
-            profit: '',
+            total_cost: 0,
+            total_price: 0,
+            profit: 0,
 
         },
         data(){

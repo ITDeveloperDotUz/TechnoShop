@@ -94,7 +94,7 @@
                                         <input class="form-control" type="number" placeholder="%" name="initial_fee_percent">
                                     </div>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="number" placeholder="Cум" name="initial_fee" шв="initial_fee">
+                                        <input class="form-control" type="number" placeholder="Cум" name="initial_fee" id="initial_fee">
                                     </div>
                                 </div>
                                 <div class="form-group row">
