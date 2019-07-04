@@ -61,18 +61,10 @@
                             <hr>
                             <div class=""><h4>Тулов</h4>
                                 <div class="form-group row">
-                                    <label for="payment_method" class="col-md-2 col-form-label">Буюртма санаси</label>
-                                    <div class="col-md-5">
-                                        <select class="form-control" v-model="payment_method" name="payment_method" id="payment_method">
-                                            <option selected value="0">Бир вактда</option>
-                                            <option value="1">Булиб тулаш</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div v-show="payment_method == 1" class="form-group row">
                                     <label for="payment_count" class="col-md-2 col-form-label">Туловлар сони</label>
                                     <div class="col-md-5">
                                         <select class="form-control" name="" v-model="payment_count" id="payment_count">
+                                            <option value="0">Бир вактда</option>
                                             <option value="1">1 ой</option>
                                             <option value="2">2 ой</option>
                                             <option value="3">3 ой</option>
@@ -88,13 +80,13 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div v-show="payment_method == 1" class="form-group row">
+                                <div v-show="payment_count > 0" class="form-group row">
                                     <label for="initial_fee" class="col-md-2 col-form-label">Бошлангич тулов</label>
                                     <div class="col-md-3">
-                                        <input class="form-control" type="number" placeholder="%" name="initial_fee_percent">
+                                        <input class="form-control" @change="calcPayment" type="number" placeholder="%" v-model="initial_fee_percent" min="0" max="100" name="initial_fee_percent">
                                     </div>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="number" placeholder="Cум" name="initial_fee" id="initial_fee">
+                                        <input @change="calcPayment" v-model="initial_fee" class="form-control" type="number" placeholder="Cум" name="initial_fee" id="initial_fee">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -108,8 +100,8 @@
                                     <div class="col-md-4">
                                         <input disabled id="paid_payment" v-model="paid_payment" class="form-control" type="number" placeholder="Cум" name="paid_payment">
                                     </div>
-                                    <label for="" class="col-xs-6 col-md-2 col-form-label">Туланди</label>
-                                    <div class="col">
+                                    <label v-show="paid_payment > 0" class="col-xs-6 col-md-2 col-form-label">Туланди</label>
+                                    <div v-show="paid_payment > 0" class="col">
                                         <input id="paid" v-model="paid" class="form-control" type="checkbox" name="paid">
                                         <div class="[ btn-group ]">
                                             <label for="paid" class="[ btn btn-primary ]">

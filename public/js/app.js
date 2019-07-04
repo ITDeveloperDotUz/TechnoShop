@@ -2060,37 +2060,44 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       calc.total_price = 0;
 
       for (var pr in sp) {
-        calc.total_count += 1;
+        calc.total_count += sp[pr].count;
         calc.total_profit += sp[pr].count * (sp[pr].price - sp[pr].real_cost);
         calc.total_cost += sp[pr].count * sp[pr].real_cost;
         calc.total_price += sp[pr].count * sp[pr].price;
-
-        if (!calc.total_price) {
-          console.log(sp[pr]);
-          console.log(sp[pr].count);
-          console.log(sp[pr].price);
-          console.log(sp[pr].real_cost);
-          console.log(sp[pr].price);
-        }
       }
+
+      this.calcPayment();
     },
     updated: function updated(val) {
-      this.selectedProducts[val.id].count = val.count; //this.recalculate();
+      this.selectedProducts[val.id].count = val.count || 1;
+      this.recalculate();
     },
-    calcPayment: function calcPayment() {// let pms = this.payments;
-      // let pmc = this.payment_count;
-      // let tprice = this.calculation.total_price;
-      // let paid = this.paid_payment;
-      // let ifee = this.initial_fee;
-      // let rpm = this.remaining_payment;
-      // let monthly_pm = rpm / pmc;
-      // console.log(ifee);
-      // for(let i = 0; i < pmc; i++){
-      //     pms['pm'+(i+1)] = {
-      //         payment_date: new Date(),
-      //         payment_amount: monthly_pm
-      //     };
-      // }
+    calcPayment: function calcPayment() {
+      var pms = this.payments;
+      var pmc = this.payment_count;
+      var tprice = this.calculation.total_price;
+      var paid = this.paid_payment;
+      var ifee = this.initial_fee;
+      var rpm = this.remaining_payment;
+      var monthly_pm = rpm / pmc;
+      this.initial_fee_percent = (this.initial_fee * 100 / this.total_payment).toFixed(2);
+
+      if (pmc == 0) {
+        this.paid_payment = tprice;
+      } else if (pmc > 0 && ifee > 0) {
+        this.paid_payment = ifee;
+        this.remaining_payment = tprice - ifee;
+      } else {
+        this.remaining_payment = tprice;
+        this.paid_payment = 0;
+      }
+
+      for (var i = 0; i < pmc; i++) {
+        pms['pm' + (i + 1)] = {
+          payment_date: new Date(),
+          payment_amount: monthly_pm
+        };
+      }
     },
     c: function c(number) {
       return ((+number).toFixed(2) + ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
@@ -2105,6 +2112,10 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
         for (var pr in prods) {
           var id = 'product' + prods[pr].id;
           sp[id] = prods[pr];
+
+          if (!sp[id].count) {
+            sp[id].count = 1;
+          }
         }
 
         this.recalculate();
@@ -2117,11 +2128,14 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       },
       deep: true
     },
-    initial_fee: {
+    initial_fee_percent: {
       handler: function handler() {
-        this.calcPayment();
-      },
-      deep: true
+        if (this.initial_fee_percent == 0) {
+          this.initial_fee = 0;
+        }
+
+        this.initial_fee = this.total_payment / 100 * this.initial_fee_percent;
+      }
     }
   }
 });
