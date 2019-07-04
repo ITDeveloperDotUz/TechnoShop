@@ -89,6 +89,15 @@
                                         <input @change="calcPayment" v-model="initial_fee" class="form-control" type="number" placeholder="Cум" name="initial_fee" id="initial_fee">
                                     </div>
                                 </div>
+                                <div v-show="payment_count > 0" class="form-group row">
+                                    <label for="" class="col-md-2 col-form-label">Бошлангич тулов</label>
+                                    <div class="col-md-3">
+                                        <input class="form-control" @change="calcPayment" type="number" placeholder="%" v-model="initial_fee_percent" min="0" max="100" name="initial_fee_percent">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input @change="calcPayment" v-model="initial_fee" class="form-control" type="number" placeholder="Cум" name="initial_fee" id="initial_fee">
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label  for="total_payment" class="col-md-2 col-form-label">Умумий тулов</label>
                                     <div class="col-md-5">
