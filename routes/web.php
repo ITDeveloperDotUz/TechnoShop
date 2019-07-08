@@ -13,30 +13,39 @@
 
 use Illuminate\Http\Request;
 
-Route::get('/', function () {
-    return redirect('/home');
-})->name('home');
-Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
+Route::group(['middleware' => ['auth']], function(){
+
+
+    Route::get('/', function () {
+        return redirect('/home');
+    })->name('home');
+    Route::get('/home', 'HomeController@index')->name('home');
+
+
 
 // Clients
-Route::resource('clients', 'ClientController');
+    Route::resource('clients', 'ClientController');
 
 //Product Incomes
-Route::resource('product_incomes', 'ProdInController');
-Route::get('product_incomes/getbycategory/{id}', 'ProdInController@getbycategory');
+    Route::resource('product_incomes', 'ProdInController');
+    Route::get('product_incomes/getbycategory/{id}', 'ProdInController@getbycategory');
 
 
 // Products
-Route::resource('products', 'ProductController');
-Route::get('products/{id}/getcategory', 'ProductController@getCategory');
-Route::get('products/{id}/ajaxedit', 'ProductController@ajaxedit');
+    Route::resource('products', 'ProductController');
+    Route::get('products/{id}/getcategory', 'ProductController@getCategory');
+    Route::get('products/{id}/ajaxedit', 'ProductController@ajaxedit');
 
 // Catigories
-Route::resource('categories', 'CategoryController');
-Route::get('categories/{id}/ajaxedit', 'CategoryController@ajaxedit');
+    Route::resource('categories', 'CategoryController');
+    Route::get('categories/{id}/ajaxedit', 'CategoryController@ajaxedit');
 
 // Orders
-Route::resource('orders', 'OrderController');
-Route::get('orders/{id}/getdata', 'OrderController@getdata');
+    Route::resource('orders', 'OrderController');
+    Route::get('orders/{id}/getdata', 'OrderController@getdata');
+
+
+});
+
