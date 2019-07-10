@@ -82,22 +82,23 @@
                                 </div>
                                 <div v-show="payment_count > 0" class="form-group row">
                                     <label for="initial_fee" class="col-md-2 col-form-label">Бошлангич тулов</label>
-                                    <div class="col-md-3">
-                                        <input class="form-control" @change="calcPayment" type="number" placeholder="%" v-model="initial_fee_percent" min="0" max="100" name="initial_fee_percent">
-                                    </div>
                                     <div class="col-md-5">
-                                        <input @change="calcPayment" v-model="initial_fee" class="form-control" type="number" placeholder="Cум" name="initial_fee" id="initial_fee">
+                                        <input @change="calcPayment" v-model.lazy="initial_fee" class="form-control" type="number" placeholder="Cум" name="initial_fee" id="initial_fee">
                                     </div>
                                 </div>
-                                <div v-show="payment_count > 0" class="form-group row">
-                                    <label for="" class="col-md-2 col-form-label">Бошлангич тулов</label>
-                                    <div class="col-md-3">
-                                        <input class="form-control" @change="calcPayment" type="number" placeholder="%" v-model="initial_fee_percent" min="0" max="100" name="initial_fee_percent">
-                                    </div>
-                                    <div class="col-md-5">
-                                        <input @change="calcPayment" v-model="initial_fee" class="form-control" type="number" placeholder="Cум" name="initial_fee" id="initial_fee">
+                                <div v-show="payment_count > 0" class="">
+                                    <div v-for="payment in payments" :key="'payment_'+payment.id" class="form-group row">
+                                        <label class="col-md-2 col-form-label">@{{ payment.id }}-ой</label>
+                                        <div class="col-md-3">
+                                            <input :value="payment.payment_amount" class="form-control" type="number" placeholder="Cум" min="0" disabled />
+                                        </div>
+                                        <label class="col-md-2 col-form-label">Тулов санаси</label>
+                                        <div class="col-md-5">
+                                            <input  class="form-control" type="date" >
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
                                     <label  for="total_payment" class="col-md-2 col-form-label">Умумий тулов</label>
                                     <div class="col-md-5">
@@ -122,8 +123,12 @@
                                 </div>
                                 <div class="form-group row">
                                     <label for="remaining_payment" class="col-md-2 col-form-label">Колдик тулов</label>
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                         <input disabled id="remaining_payment" v-model="remaining_payment" class="form-control" type="number" placeholder="Cум" name="remaining_payment">
+                                    </div>
+                                    <label for="remaining_payment" class="col-md-2 col-form-label">Фарк</label>
+                                    <div class="col-md-4">
+                                        <input disabled id="remaining_payment" v-model="payment_diff" class="form-control" type="number" placeholder="Cум" name="payment_diff">
                                     </div>
                                 </div>
                             </div>

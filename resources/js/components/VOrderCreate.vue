@@ -32,6 +32,7 @@
                 initial_fee_percent: 0,
                 paid_payment: 0,
                 remaining_payment: 0,
+                payment_diff: 0,
                 paid: false,
                 //total_payment: this.calculation.total_price
             }
@@ -91,7 +92,6 @@
                 this.recalculate();
             },
             calcPayment(){
-                let pms = this.payments;
                 let pmc = this.payment_count;
                 let tprice = this.calculation.total_price;
                 let paid = this.paid_payment;
@@ -99,7 +99,7 @@
                 let rpm = this.remaining_payment;
                 let monthly_pm = rpm / pmc;
 
-                this.initial_fee_percent = (this.initial_fee * 100 / this.total_payment).toFixed(2)
+
                 if(pmc == 0){
                     this.paid_payment = tprice;
                 } else if (pmc > 0 && ifee > 0) {
@@ -109,10 +109,23 @@
                     this.remaining_payment = tprice
                     this.paid_payment = 0
                 }
+                this.renderPayment();
+            },
+            renderPayment(){
+                this.payments = {};
+                let pmc = this.payment_count;
+                let rpm = this.remaining_payment;
+                let monthly_pm = Math.round((rpm / pmc)/1000) * 1000;
+                this.remaining_payment = (monthly_pm * pmc)
+                this.payment_diff = this.total_payment - (this.remaining_payment - this.paid_payment)
+                let pms = this.payments;
+
+
                 for(let i = 0; i < pmc; i++){
                     pms['pm'+(i+1)] = {
                         payment_date: new Date(),
-                        payment_amount: monthly_pm
+                        payment_amount: monthly_pm,
+                        id: i+1
                     };
                 }
             },
@@ -143,14 +156,6 @@
                 },
                 deep: true,
             },
-            initial_fee_percent: {
-                handler(){
-                    if (this.initial_fee_percent == 0) {
-                        this.initial_fee = 0;
-                    }
-                    this.initial_fee = this.total_payment / 100 * this.initial_fee_percent
-                }
-            }
         }
     }
 </script>

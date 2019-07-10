@@ -2008,6 +2008,7 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       initial_fee_percent: 0,
       paid_payment: 0,
       remaining_payment: 0,
+      payment_diff: 0,
       paid: false //total_payment: this.calculation.total_price
 
     };
@@ -2073,14 +2074,12 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       this.recalculate();
     },
     calcPayment: function calcPayment() {
-      var pms = this.payments;
       var pmc = this.payment_count;
       var tprice = this.calculation.total_price;
       var paid = this.paid_payment;
       var ifee = this.initial_fee;
       var rpm = this.remaining_payment;
       var monthly_pm = rpm / pmc;
-      this.initial_fee_percent = (this.initial_fee * 100 / this.total_payment).toFixed(2);
 
       if (pmc == 0) {
         this.paid_payment = tprice;
@@ -2092,10 +2091,22 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
         this.paid_payment = 0;
       }
 
+      this.renderPayment();
+    },
+    renderPayment: function renderPayment() {
+      this.payments = {};
+      var pmc = this.payment_count;
+      var rpm = this.remaining_payment;
+      var monthly_pm = Math.round(rpm / pmc / 1000) * 1000;
+      this.remaining_payment = monthly_pm * pmc;
+      this.payment_diff = this.total_payment - (this.remaining_payment - this.paid_payment);
+      var pms = this.payments;
+
       for (var i = 0; i < pmc; i++) {
         pms['pm' + (i + 1)] = {
           payment_date: new Date(),
-          payment_amount: monthly_pm
+          payment_amount: monthly_pm,
+          id: i + 1
         };
       }
     },
@@ -2127,15 +2138,6 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
         this.calcPayment();
       },
       deep: true
-    },
-    initial_fee_percent: {
-      handler: function handler() {
-        if (this.initial_fee_percent == 0) {
-          this.initial_fee = 0;
-        }
-
-        this.initial_fee = this.total_payment / 100 * this.initial_fee_percent;
-      }
     }
   }
 });
