@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button required class="btn btn-info" type="submit">Саклаш</button>
+                                <button class="btn btn-info" type="submit">Саклаш</button>
                             </div>
                             <div class="clearfix"></div>
                         </div>

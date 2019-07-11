@@ -7,6 +7,7 @@ use App\Category;
 use App\Product;
 use App\ProdIn;
 use App\Client;
+use App\Payment;
 
 
 
@@ -29,7 +30,6 @@ class OrderController extends Controller
      */
     public function create()
     {
-
         return view('order.create');
     }
 
@@ -53,8 +53,19 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $prs = $this::saveProducts($request->products);
+
+
+        return json_encode($prs);
     }
+
+    private function saveProducts($products){
+
+        return $products;
+
+
+    }
+
 
     /**
      * Display the specified resource.

@@ -9,10 +9,10 @@
                 <h3>Янги буюртма</h3>
             </div>
             <div class="card-body">
-                <form id="prodin_form" action="{{ route('product_incomes.store') }}" class="form-horizontal" method="post">
+                <form id="order_create_form" action="{{ route('orders.store') }}" class="form-horizontal" method="post">
                     @csrf
                     <v-order-create inline-template>
-                        <div class="mbtm-3">
+                        <div class="">
                             <div class=""><h4>Асосий маълумотлар</h4>
                                 <div class="form-group row">
                                     <label for="order_date" class="col-md-2 col-form-label">Буюртма санаси</label>
@@ -59,10 +59,10 @@
 
                             </div>
                             <hr>
-                            <div class=""><h4>Тулов</h4>
+                            <div class="mb-3"><h4>Тулов</h4>
                                 <div class="form-group row">
                                     <label for="payment_count" class="col-md-2 col-form-label">Туловлар сони</label>
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                         <select class="form-control" name="" v-model="payment_count" id="payment_count">
                                             <option value="0">Бир вактда</option>
                                             <option value="1">1 ой</option>
@@ -82,26 +82,26 @@
                                 </div>
                                 <div v-show="payment_count > 0" class="form-group row">
                                     <label for="initial_fee" class="col-md-2 col-form-label">Бошлангич тулов</label>
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                         <input @change="calcPayment" v-model.lazy="initial_fee" class="form-control" type="number" placeholder="Cум" name="initial_fee" id="initial_fee">
                                     </div>
                                 </div>
-                                <div v-show="payment_count > 0" class="">
+                                <div v-show="payment_count > 0" class="bg-info-o p-2 mb-3">
                                     <div v-for="payment in payments" :key="'payment_'+payment.id" class="form-group row">
                                         <label class="col-md-2 col-form-label">@{{ payment.id }}-ой</label>
-                                        <div class="col-md-3">
-                                            <input :value="payment.payment_amount" class="form-control" type="number" placeholder="Cум" min="0" disabled />
+                                        <div class="col-md-4">
+                                            <input v-model="payment.payment_amount" class="form-control" type="number" placeholder="Cум" min="0" disabled />
                                         </div>
                                         <label class="col-md-2 col-form-label">Тулов санаси</label>
-                                        <div class="col-md-5">
-                                            <input  class="form-control" type="date" >
+                                        <div class="col-md-4">
+                                            <input v-model="payment.payment_date" class="form-control" type="date" >
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label  for="total_payment" class="col-md-2 col-form-label">Умумий тулов</label>
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                         <input disabled id="total_payment" v-model="total_payment" class="form-control" type="number" placeholder="Cум" name="total_payment">
                                     </div>
                                 </div>
@@ -121,23 +121,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div v-show="payment_count > 0" class="form-group row">
                                     <label for="remaining_payment" class="col-md-2 col-form-label">Колдик тулов</label>
                                     <div class="col-md-4">
                                         <input disabled id="remaining_payment" v-model="remaining_payment" class="form-control" type="number" placeholder="Cум" name="remaining_payment">
                                     </div>
-                                    <label for="remaining_payment" class="col-md-2 col-form-label">Фарк</label>
-                                    <div class="col-md-4">
-                                        <input disabled id="remaining_payment" v-model="payment_diff" class="form-control" type="number" placeholder="Cум" name="payment_diff">
-                                    </div>
                                 </div>
                             </div>
+                            <div class="">
+                                <button @click.prevent="submit" class="btn btn-success"><i class="fa fa-save"></i> Саклаш</button>
+                            </div>
                         </div>
+
                     </v-order-create>
                 </form>
-            </div>
-            <div class="card-footer">
-                <button class="btn btn-success">Саклаш</button>
             </div>
         </div>
     </div>

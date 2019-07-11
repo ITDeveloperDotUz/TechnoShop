@@ -15,13 +15,14 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('products');
+
             $table->integer('client');
-            $table->integer('quantities');
-            $table->string('total_aomunt');
-            $table->string('debt');
-            $table->string('payments');
-            $table->string('total_payment');
+            $table->string('payments'); //JSON
+            $table->string('products'); //JSON
+            $table->string('calculation'); //JSON
+            $table->string('initial_fee'); //JSON
+            $table->string('paid_payment'); //JSON
+            $table->string('remaining_payment'); //JSON
             $table->string('closed')->nullable();
             $table->timestamps();
         });

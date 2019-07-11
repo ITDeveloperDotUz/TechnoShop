@@ -1986,7 +1986,7 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
   },
   data: function data() {
     return {
-      order_date: '',
+      order_date: moment().format('YYYY-MM-DD'),
       alldata: [],
       clients: [],
       client: 0,
@@ -2079,7 +2079,6 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       var paid = this.paid_payment;
       var ifee = this.initial_fee;
       var rpm = this.remaining_payment;
-      var monthly_pm = rpm / pmc;
 
       if (pmc == 0) {
         this.paid_payment = tprice;
@@ -2095,20 +2094,38 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
     },
     renderPayment: function renderPayment() {
       this.payments = {};
+      var pms = this.payments;
       var pmc = this.payment_count;
       var rpm = this.remaining_payment;
       var monthly_pm = Math.round(rpm / pmc / 1000) * 1000;
-      this.remaining_payment = monthly_pm * pmc;
-      this.payment_diff = this.total_payment - (this.remaining_payment - this.paid_payment);
-      var pms = this.payments;
+      this.payment_diff = this.remaining_payment - monthly_pm * pmc;
 
       for (var i = 0; i < pmc; i++) {
         pms['pm' + (i + 1)] = {
-          payment_date: new Date(),
-          payment_amount: monthly_pm,
+          payment_date: moment(this.order_date).add(i + 1, 'M').format('YYYY-MM-DD'),
+          payment_amount: i + 1 == pmc ? monthly_pm + this.payment_diff : monthly_pm,
           id: i + 1
         };
       }
+    },
+    submit: function submit() {
+      this.sentdata = {
+        payments: this.payments,
+        products: this.products,
+        calculation: this.calculation,
+        payment_method: this.payment_method,
+        payment_type: this.payment_type,
+        payment_count: this.payment_count,
+        initial_fee: this.initial_fee,
+        paid_payment: this.paid_payment,
+        remaining_payment: this.remaining_payment,
+        payment_diff: this.payment_diff,
+        paid: this.paid,
+        date: this.date
+      };
+      axios.post('/orders', this.sentdata).then(function (response) {
+        console.log(response.data); //document.location = '/orders';
+      });
     },
     c: function c(number) {
       return ((+number).toFixed(2) + ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
