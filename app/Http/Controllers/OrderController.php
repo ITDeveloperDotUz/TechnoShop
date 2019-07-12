@@ -8,6 +8,7 @@ use App\Product;
 use App\ProdIn;
 use App\Client;
 use App\Payment;
+use App\Order;
 
 
 
@@ -53,10 +54,23 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $prs = $this::saveProducts($request->products);
-
-
-        return json_encode($prs);
+        $inp = $request->input();
+        //dd($request->input());
+        $order = new Order;
+        $order->client_id = $inp['client_id'];
+        $order->client_name = $inp['client_name'];
+        $order->payments = json_encode($inp['payments']);
+        $order->products = json_encode($inp['products']);
+        $order->calculation = json_encode($inp['calculation']);
+        $order->initial_fee = json_encode($inp['initial_fee']);
+        $order->paid_payment = $inp['paid_payment'];
+        $order->remaining_payment = $inp['remaining_payment'];
+        $order->order_date = $inp['order_date'];
+        try{
+            $order->save();
+        } catch (\Exception $e){
+            return $e->getMessage();
+        }
     }
 
     private function saveProducts($products){

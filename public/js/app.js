@@ -2009,7 +2009,8 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       paid_payment: 0,
       remaining_payment: 0,
       payment_diff: 0,
-      paid: false //total_payment: this.calculation.total_price
+      paid: false,
+      sentData: '' //total_payment: this.calculation.total_price
 
     };
   },
@@ -2109,22 +2110,27 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       }
     },
     submit: function submit() {
-      this.sentdata = {
+      this.sentData = {
+        client_id: this.client.value,
+        client_name: this.client.label,
         payments: this.payments,
         products: this.products,
         calculation: this.calculation,
-        payment_method: this.payment_method,
-        payment_type: this.payment_type,
-        payment_count: this.payment_count,
-        initial_fee: this.initial_fee,
+        initial_fee: {
+          initial_fee: this.initial_fee,
+          payment_method: this.payment_method,
+          payment_type: this.payment_type,
+          payment_count: this.payment_count,
+          paid: this.paid
+        },
         paid_payment: this.paid_payment,
         remaining_payment: this.remaining_payment,
-        payment_diff: this.payment_diff,
-        paid: this.paid,
-        date: this.date
+        order_date: this.order_date
       };
-      axios.post('/orders', this.sentdata).then(function (response) {
-        console.log(response.data); //document.location = '/orders';
+      axios.post('/orders', this.sentData).then(function (response) {
+        document.location = '/orders';
+      })["catch"](function (error) {
+        console.log(error);
       });
     },
     c: function c(number) {

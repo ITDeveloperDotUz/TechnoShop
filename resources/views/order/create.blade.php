@@ -125,12 +125,15 @@
                                     <label for="remaining_payment" class="col-md-2 col-form-label">Колдик тулов</label>
                                     <div class="col-md-4">
                                         <input disabled id="remaining_payment" v-model="remaining_payment" class="form-control" type="number" placeholder="Cум" name="remaining_payment">
+                                        <input v-model="sentData" type="hidden" name="sent">
                                     </div>
                                 </div>
                             </div>
                             <div class="">
                                 <button @click.prevent="submit" class="btn btn-success"><i class="fa fa-save"></i> Саклаш</button>
                             </div>
+
+                            <div id="error"></div>
                         </div>
 
                     </v-order-create>

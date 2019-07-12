@@ -34,6 +34,7 @@
                 remaining_payment: 0,
                 payment_diff: 0,
                 paid: false,
+                sentData: ''
                 //total_payment: this.calculation.total_price
             }
         },
@@ -126,25 +127,29 @@
                 }
             },
             submit(){
-                this.sentdata = {
+                this.sentData = {
+                    client_id: this.client.value,
+                    client_name: this.client.label,
                     payments: this.payments,
                     products: this.products,
                     calculation: this.calculation,
-                    payment_method: this.payment_method,
-                    payment_type: this.payment_type,
-                    payment_count: this.payment_count,
-                    initial_fee: this.initial_fee,
+                    initial_fee: {
+                        initial_fee: this.initial_fee,
+                        payment_method: this.payment_method,
+                        payment_type: this.payment_type,
+                        payment_count: this.payment_count,
+                        paid: this.paid,
+                    },
                     paid_payment: this.paid_payment,
                     remaining_payment: this.remaining_payment,
-                    payment_diff: this.payment_diff,
-                    paid: this.paid,
-                    date: this.date,
+                    order_date: this.order_date,
                 };
                 axios.post('/orders',
-                    this.sentdata
+                    this.sentData
                 ).then((response) => {
-                    console.log(response.data)
-                    //document.location = '/orders';
+                    document.location = '/orders';
+                }).catch(function (error) {
+                    console.log(error);
                 });
             },
             c(number){

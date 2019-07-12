@@ -14,4 +14,12 @@ class Client extends Model
         'pass_gd',
         'pass_gs'
     ];
+
+    public function payment(){
+        return $this->hssMany('App\Payment');
+    }
+
+    public function order(){
+        return $this->hssMany('App\Order');
+    }
 }
