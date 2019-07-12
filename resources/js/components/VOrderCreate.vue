@@ -10,6 +10,7 @@
         },
         data: function(){
             return {
+                id: 0,
                 order_date: moment().format('YYYY-MM-DD'),
                 alldata: [],
                 clients: [],
@@ -90,6 +91,9 @@
             },
             updated(val){
                 this.selectedProducts[val.id].count = val.count || 1;
+                this.selectedProducts[val.id].total_cost = val.total_cost || 0;
+                this.selectedProducts[val.id].total_price = val.total_price || 0;
+                this.selectedProducts[val.id].profit = val.profit || 0;
                 this.recalculate();
             },
             calcPayment(){
@@ -127,6 +131,9 @@
                 }
             },
             submit(){
+                if(!this.validate()){
+                    return
+                }
                 this.sentData = {
                     client_id: this.client.value,
                     client_name: this.client.label,
@@ -147,10 +154,30 @@
                 axios.post('/orders',
                     this.sentData
                 ).then((response) => {
-                    document.location = '/orders';
+                    console.log(response.data)
+                    this.id = response.data
+                    //document.location = '/orders';
                 }).catch(function (error) {
                     console.log(error);
                 });
+            },
+            confirm(){
+                axios.get(
+                    '/orders/'+this.id+'/confirm',
+                ).then((response) => {
+                    console.log(response.data)
+                })
+            },
+            validate(){
+                if (!this.client.value){
+                    alert('Mijozni tanlang');
+                    return false;
+                }
+                if(this.products.length === 0){
+                    alert('Maxsulotni tanlang');
+                    return false;
+                }
+                return true
             },
             c(number){
                 return (((+number).toFixed(2)+ ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ' '));

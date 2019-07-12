@@ -17,9 +17,12 @@ class CreatePaymentsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('order_id');
             $table->integer('client_id');
-            $table->integer('amount');
-            $table->integer('method');
-            $table->text('note');
+            $table->string('client_name');
+            $table->string('contract_number')->nullable();
+            $table->string('payment_amount');
+            $table->string('payment_method')->nullable();
+            $table->string('payment_date');
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth']], function(){
 // Orders
     Route::resource('orders', 'OrderController');
     Route::get('orders/{id}/getdata', 'OrderController@getdata');
+    Route::get('orders/{id}/confirm', 'OrderController@confirm');
 
 
 });

@@ -10,8 +10,11 @@ class Payment extends Model
     protected $fillable = [
         'order_id',
         'client_id',
-        'amount',
-        'method',
+        'client_name',
+        'contract_number',
+        'payment_amount',
+        'payment_method',
+        'payment_date',
         'note'
     ];
 

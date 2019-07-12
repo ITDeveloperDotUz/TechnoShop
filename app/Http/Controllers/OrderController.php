@@ -55,31 +55,57 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $inp = $request->input();
-        //dd($request->input());
         $order = new Order;
         $order->client_id = $inp['client_id'];
         $order->client_name = $inp['client_name'];
-        $order->payments = json_encode($inp['payments']);
+        $order->payments = (count($inp['payments']) < 1)? 0 : json_encode($inp['payments']) ;
         $order->products = json_encode($inp['products']);
         $order->calculation = json_encode($inp['calculation']);
         $order->initial_fee = json_encode($inp['initial_fee']);
         $order->paid_payment = $inp['paid_payment'];
         $order->remaining_payment = $inp['remaining_payment'];
         $order->order_date = $inp['order_date'];
+
         try{
             $order->save();
         } catch (\Exception $e){
             return $e->getMessage();
         }
+        return $order->id;
     }
 
-    private function saveProducts($products){
+    public function confirm($id){
+        $inp = Order::where('id', $id)->first();
+        $payments = json_decode($inp->payments);
+        $products = json_decode($inp->products);
+        if($payments){
+            foreach($payments as $pm){
+                $data = [
+                    'order_id' => $id,
+                    'client_id' => $inp->client_id,
+                    'client_name' => $inp->client_name,
+                    'contract_number' => $inp->client_id.'/'.$id,
+                    'payment_amount' => $pm->payment_amount,
+                    'payment_date' => $pm->payment_date,
+                ];
 
-        return $products;
+                try{
+                    Payment::create($data);
+                } catch (\Exception $e){
+                    return response()->json(['success' => false, 'message' => $e->getMessage()]);
+                }
+            }
+        }
 
-
+        foreach ($products as $product){
+            $pr = Product::where('id', $product->id)->first();
+            $pr->available -= $product->count;
+            $pr->total_cost -= $product->total_cost;
+            $pr->total_price -= $product->total_price;
+            $pr->profit -= $product->profit;
+            $pr->save();
+        }
     }
-
 
     /**
      * Display the specified resource.

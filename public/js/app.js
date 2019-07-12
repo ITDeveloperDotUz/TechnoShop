@@ -1986,6 +1986,7 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
   },
   data: function data() {
     return {
+      id: 0,
       order_date: moment().format('YYYY-MM-DD'),
       alldata: [],
       clients: [],
@@ -2072,6 +2073,9 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
     },
     updated: function updated(val) {
       this.selectedProducts[val.id].count = val.count || 1;
+      this.selectedProducts[val.id].total_cost = val.total_cost || 0;
+      this.selectedProducts[val.id].total_price = val.total_price || 0;
+      this.selectedProducts[val.id].profit = val.profit || 0;
       this.recalculate();
     },
     calcPayment: function calcPayment() {
@@ -2110,6 +2114,12 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       }
     },
     submit: function submit() {
+      var _this2 = this;
+
+      if (!this.validate()) {
+        return;
+      }
+
       this.sentData = {
         client_id: this.client.value,
         client_name: this.client.label,
@@ -2128,10 +2138,29 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
         order_date: this.order_date
       };
       axios.post('/orders', this.sentData).then(function (response) {
-        document.location = '/orders';
+        console.log(response.data);
+        _this2.id = response.data; //document.location = '/orders';
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    confirm: function confirm() {
+      axios.get('/orders/' + this.id + '/confirm').then(function (response) {
+        console.log(response.data);
+      });
+    },
+    validate: function validate() {
+      if (!this.client.value) {
+        alert('Mijozni tanlang');
+        return false;
+      }
+
+      if (this.products.length === 0) {
+        alert('Maxsulotni tanlang');
+        return false;
+      }
+
+      return true;
     },
     c: function c(number) {
       return ((+number).toFixed(2) + ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
@@ -2579,7 +2608,10 @@ __webpack_require__.r(__webpack_exports__);
       //let data = Object.assign({}, this._data, this._props);
       this.$emit('update', {
         id: 'product' + this.id,
-        count: this.count
+        count: this.count,
+        total_cost: this.computed_cost,
+        total_price: this.computed_price,
+        profit: this.computed_profit
       });
     },
     c: function c(number) {

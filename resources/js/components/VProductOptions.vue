@@ -75,7 +75,13 @@
             },
             update(){
                 //let data = Object.assign({}, this._data, this._props);
-                this.$emit('update',{id: 'product'+this.id, count: this.count});
+                this.$emit('update',{
+                    id: 'product'+this.id,
+                    count: this.count,
+                    total_cost: this.computed_cost,
+                    total_price: this.computed_price,
+                    profit: this.computed_profit,
+                });
             },
             c(number){
                 return (((+number).toFixed(2)+ ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
