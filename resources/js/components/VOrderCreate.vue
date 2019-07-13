@@ -166,9 +166,8 @@
                 axios.get(
                     '/orders/'+this.id+'/confirm',
                 ).then((response) => {
-
-                    console.log(response.data)
                     document.getElementById('confirmed').disabled = true
+                    document.getElementById('save').disabled = true
                 })
             },
             validate(){

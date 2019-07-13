@@ -3,7 +3,7 @@
 
 @endsection
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="accordion md-accordion accordion-blocks" id="accordionEx78" role="tablist"
              aria-multiselectable="true">
             @foreach($cats as $key => $obj)
@@ -17,12 +17,12 @@
                         </h5>
                     </a>
                     <div class="col-md-3 float-right">
-                        <b>Умумий даромад</b> - {{ $obj->total_price }}<br>
-                        <b>Соф фойда</b> - {{ $obj->profit }}
+                        <b>Умумий даромад</b> - {{ number_format($obj->total_price,0,'',' ') }}<br>
+                        <b>Соф фойда</b> - {{ number_format($obj->profit,0,'',' ') }}
                     </div>
                     <div class="col-md-3 float-right">
                         <b>Сони</b> - {{ $obj->quantity }}<br>
-                        <b>Умумий харажат</b> - {{ $obj->total_cost }}
+                        <b>Умумий харажат</b> - {{ number_format($obj->total_cost,0,'',' ') }}
                     </div>
                 </div>
                 <div
@@ -47,14 +47,16 @@
                                 </thead>
                                 <tbody>
                                 @foreach($obj->product as $product)
-                                <tr>
-                                    <td>{{ $product->name }}</td>
-                                    <td>{{ $product->available }}</td>
-                                    <td>{{ $product->real_cost }}</td>
-                                    <td>{{ $product->price }}</td>
-                                    <td>{{ $product->total_cost }}</td>
-                                    <td>{{ $product->total_price }}</td>
-                                </tr>
+                                    @if($product->available)
+                                    <tr>
+                                        <td>{{ $product->name }}</td>
+                                        <td>{{ $product->available }}</td>
+                                        <td>{{ number_format($product->real_cost,0,'',' ') }}</td>
+                                        <td>{{ number_format($product->price,0,'',' ') }}</td>
+                                        <td>{{ number_format($product->total_cost,0,'',' ') }}</td>
+                                        <td>{{ number_format($product->total_price,0,'',' ') }}</td>
+                                    </tr>
+                                    @endif
                                 @endforeach
                                 </tbody>
                             </table>

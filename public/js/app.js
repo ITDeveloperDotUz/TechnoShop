@@ -2147,8 +2147,8 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
     },
     confirm: function confirm() {
       axios.get('/orders/' + this.id + '/confirm').then(function (response) {
-        console.log(response.data);
         document.getElementById('confirmed').disabled = true;
+        document.getElementById('save').disabled = true;
       });
     },
     validate: function validate() {

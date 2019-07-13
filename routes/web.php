@@ -48,5 +48,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('orders/{id}/confirm', 'OrderController@confirm');
 
 
+//Payments
+    Route::resource('payments', 'PaymentController');
+    Route::get('payments/{id}/order', 'PaymentController@GetByOrder');
+
+
 });
 

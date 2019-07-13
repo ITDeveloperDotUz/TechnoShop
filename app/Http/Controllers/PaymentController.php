@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Product;
-use App\Category;
 
-class ProductController extends Controller
+class PaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +13,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return view('product.index', ['products' => $products]);
+        //
     }
 
     /**
@@ -26,17 +23,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $cats = Category::all();
-        return view('product.create', ['cats' => $cats]);
+        //
     }
-
-    public function getCategory($id)
-    {
-        $cat = Category::where('id', $id)->get()[0];
-        return $cat;
-    }
-
-
 
     /**
      * Store a newly created resource in storage.
@@ -46,10 +34,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = new Product;
-        $product->fill($request->input());
-        $product->save();
-        return redirect(route('products.index'));
+        //
     }
 
     /**
@@ -58,9 +43,13 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id){
-        $product = Product::where('id', $id)->first();
-        return view('product.show', ['product' => $product]);
+    public function show($id)
+    {
+        //
+    }
+
+    public function GetByOrder($id){
+        return redirect(route('home'));
     }
 
     /**
@@ -71,15 +60,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $cats = Category::all();
-        $product = Product::where('id', $id)->get()[0];
-        return view('product.edit', ['product' => $product, 'cats' => $cats]);
-    }
-
-    public function ajaxedit($id)
-    {
-        $product = Product::where('id', $id)->get()[0];
-        return json_encode($product);
+        //
     }
 
     /**
@@ -91,10 +72,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = Product::where('id', $id)->get()[0];
-        $product->update($request->input());
-        $product->save();
-        return redirect(route('products.index', $id));
+        //
     }
 
     /**
@@ -105,7 +83,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        Product::where('id', $id)->delete();
-        return redirect(route('products.index'));
+        //
     }
 }

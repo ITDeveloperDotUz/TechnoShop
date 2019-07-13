@@ -21,7 +21,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('order.index');
+        $orders = Order::all();
+        return view('order.index', ['orders' => $orders]);
     }
 
     /**
@@ -31,6 +32,8 @@ class OrderController extends Controller
      */
     public function create()
     {
+
+
         return view('order.create');
     }
 
@@ -113,6 +116,7 @@ class OrderController extends Controller
 
         $inp->confirmed = true;
         $inp->save();
+        return redirect()->back();
     }
 
     /**
@@ -123,7 +127,11 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = Order::where('id', $id)->first();
+        $payments = $order->payment;
+        $products = json_decode($order->products);
+
+        return view('order.show', ['order' => $order, 'payments' => $payments, 'products' => $products]);
     }
 
     /**
