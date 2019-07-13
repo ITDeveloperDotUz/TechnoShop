@@ -2121,6 +2121,7 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       }
 
       this.sentData = {
+        id: this.id,
         client_id: this.client.value,
         client_name: this.client.label,
         payments: this.payments,
@@ -2147,6 +2148,7 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
     confirm: function confirm() {
       axios.get('/orders/' + this.id + '/confirm').then(function (response) {
         console.log(response.data);
+        document.getElementById('confirmed').disabled = true;
       });
     },
     validate: function validate() {

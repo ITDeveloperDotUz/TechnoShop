@@ -139,7 +139,7 @@
                                     </div>
                                     <div class="mt-3">
                                         <button @click.prevent="submit" class="btn btn-success"><i class="fa fa-save"></i> Саклаш</button>
-                                        <button v-show="id !== 0" @click.prevent="confirm" class="btn btn-primary"><i class="fa fa-check"></i> Тасдиклаш</button>
+                                        <button id="confirmed" v-show="id !== 0" @click.prevent="confirm" class="btn btn-primary"><i class="fa fa-check"></i> Тасдиклаш</button>
                                     </div>
                                 </div>
                             </div>

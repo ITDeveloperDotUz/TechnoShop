@@ -55,7 +55,12 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $inp = $request->input();
-        $order = new Order;
+        if($inp['id'] == 0){
+            $order = new Order;
+        } else {
+            $order = Order::where('id', $inp['id'])->first();
+        }
+
         $order->client_id = $inp['client_id'];
         $order->client_name = $inp['client_name'];
         $order->payments = (count($inp['payments']) < 1)? 0 : json_encode($inp['payments']) ;
@@ -105,6 +110,9 @@ class OrderController extends Controller
             $pr->profit -= $product->profit;
             $pr->save();
         }
+
+        $inp->confirmed = true;
+        $inp->save();
     }
 
     /**

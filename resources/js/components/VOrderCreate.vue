@@ -8,7 +8,7 @@
         components: {
             'v-product-options': VProductOptions,
         },
-        data: function(){
+        data(){
             return {
                 id: 0,
                 order_date: moment().format('YYYY-MM-DD'),
@@ -135,6 +135,7 @@
                     return
                 }
                 this.sentData = {
+                    id: this.id,
                     client_id: this.client.value,
                     client_name: this.client.label,
                     payments: this.payments,
@@ -165,7 +166,9 @@
                 axios.get(
                     '/orders/'+this.id+'/confirm',
                 ).then((response) => {
+
                     console.log(response.data)
+                    document.getElementById('confirmed').disabled = true
                 })
             },
             validate(){

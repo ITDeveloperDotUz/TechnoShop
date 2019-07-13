@@ -16,7 +16,8 @@ class Order extends Model
         'paid_payment',
         'remaining_payment',
         'order_date',
-        'closed'
+        'closed',
+        'confirmed'
     ];
 
     public function payment(){

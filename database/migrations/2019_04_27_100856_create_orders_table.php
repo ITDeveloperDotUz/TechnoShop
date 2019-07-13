@@ -24,7 +24,8 @@ class CreateOrdersTable extends Migration
             $table->string('paid_payment'); //JSON
             $table->string('remaining_payment'); //JSON
             $table->string('order_date'); //JSON
-            $table->string('closed')->nullable();
+            $table->boolean('closed')->default(false);
+            $table->boolean('confirmed')->default(false);
             $table->timestamps();
         });
     }
