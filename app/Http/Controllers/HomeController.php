@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Client;
 use App\Category;
 use App\Product;
-
+use App\Setting;
+use App\Order;
+use App\Payment;
+use App\ProdIn;
 
 class HomeController extends Controller
 {
@@ -15,8 +18,7 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth');
     }
 
@@ -27,10 +29,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-
+        $orders = Order::count();
+        $payments = Payment::count();
+        $prodIns = ProdIn::count();
         $clients = Client::count();
         $products = Product::count();
         $categories = Category::count();
-        return view('home', ['clients' => $clients, 'categories' => $categories, 'products' => $products]);
+        return view('home', [
+            'clients' => $clients,
+            'categories' => $categories,
+            'products' => $products,
+            'orders' => $orders,
+            'payments' => $payments,
+            'prodIns' => $prodIns,
+        ]);
     }
 }

@@ -26,15 +26,14 @@
                     total_count: 0,
                 },
                 payments: {},
-                payment_method: 0,
-                payment_type: 0,
+                payment_method: '',
+                payment_date: '',
                 payment_count: 0,
                 initial_fee: 0,
                 initial_fee_percent: 0,
                 paid_payment: 0,
                 remaining_payment: 0,
                 payment_diff: 0,
-                paid: false,
                 sentData: ''
                 //total_payment: this.calculation.total_price
             }
@@ -144,9 +143,8 @@
                     initial_fee: {
                         initial_fee: this.initial_fee,
                         payment_method: this.payment_method,
-                        payment_type: this.payment_type,
+                        payment_date: this.order_date,
                         payment_count: this.payment_count,
-                        paid: this.paid,
                     },
                     paid_payment: this.paid_payment,
                     remaining_payment: this.remaining_payment,
@@ -163,12 +161,16 @@
                 });
             },
             confirm(){
-                axios.get(
-                    '/orders/'+this.id+'/confirm',
-                ).then((response) => {
-                    document.getElementById('confirmed').disabled = true
-                    document.getElementById('save').disabled = true
-                })
+                if(this.payment_method){
+                    axios.get(
+                        '/orders/'+this.id+'/confirm',
+                    ).then((response) => {
+                        document.getElementById('confirmed').disabled = true
+                        document.getElementById('save').disabled = true
+                    })
+                } else {
+                    alert('Буюуртмани тасдиклаш учун Бошлангич ёки умумий тулов амалга оширилиши шарт!')
+                }
             },
             validate(){
                 if (!this.client.value){

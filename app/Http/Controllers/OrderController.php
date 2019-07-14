@@ -83,16 +83,16 @@ class OrderController extends Controller
     }
 
     public function confirm($id){
-        $inp = Order::where('id', $id)->first();
-        $payments = json_decode($inp->payments);
-        $products = json_decode($inp->products);
+        $order = Order::where('id', $id)->first();
+        $payments = json_decode($order->payments);
+        $products = json_decode($order->products);
         if($payments){
             foreach($payments as $pm){
                 $data = [
                     'order_id' => $id,
-                    'client_id' => $inp->client_id,
-                    'client_name' => $inp->client_name,
-                    'contract_number' => $inp->client_id.'/'.$id,
+                    'client_id' => $order->client_id,
+                    'client_name' => $order->client_name,
+                    'contract_number' => $order->client_id.'/'.$id,
                     'payment_amount' => $pm->payment_amount,
                     'payment_date' => $pm->payment_date,
                 ];
@@ -114,8 +114,8 @@ class OrderController extends Controller
             $pr->save();
         }
 
-        $inp->confirmed = true;
-        $inp->save();
+        $order->confirmed = true;
+        $order->save();
         return redirect()->back();
     }
 

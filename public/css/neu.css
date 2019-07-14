@@ -2,7 +2,7 @@
   display: grid;
   background: none;
   grid-gap: 2.5%;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   position: relative;
 }
 
@@ -15,5 +15,174 @@
 
 .align-center {
   text-align: center;
+}
+
+#sidebar {
+  width: 240px;
+  height: 100%;
+  position: fixed;
+  background: rgba(52, 48, 48, 0.78);
+  transition: all 0.3s ease-in-out;
+}
+
+#sidebar ul li {
+  position: relative;
+}
+
+.leftside-navigation,
+.right-stat-bar {
+  height: 100%;
+}
+
+.right-stat-bar ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/*LEFT NAVIGATION ICON*/
+
+.dcjq-icon {
+  height: 17px;
+  width: 17px;
+  display: inline-block;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  position: absolute;
+  right: 10px;
+}
+
+.active .dcjq-icon {
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+
+.right-side-accordion .dcjq-icon {
+  height: 17px;
+  width: 17px;
+  display: inline-block;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  position: absolute;
+  right: 10px;
+}
+
+.right-side-accordion .active .dcjq-icon {
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+
+.right-side-accordion li:nth-child(2) ul li .prog-row {
+  border: none;
+}
+
+/*---*/
+
+.nav-collapse.collapse {
+  display: inline;
+}
+
+ul.sidebar-menu,
+ul.sidebar-menu li ul.sub {
+  margin: -2px 0 0;
+  padding: 0;
+}
+
+ul.sidebar-menu {
+  padding-top: 80px;
+}
+
+#sidebar > ul > li > ul.sub {
+  display: none;
+}
+
+#sidebar .sub-menu > .sub li a {
+  padding-left: 46px;
+}
+
+#sidebar > ul > li.active > ul.sub,
+#sidebar > ul > li > ul.sub > li > a {
+  display: block;
+}
+
+ul.sidebar-menu li ul.sub li {
+  background: rgba(52, 48, 48, 0);
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+ul.sidebar-menu li ul.sub li a {
+  font-size: 12px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  transition: all 0.3s ease;
+  color: #fff;
+}
+
+ul.sidebar-menu li ul.sub li a:hover,
+ul.sidebar-menu li ul.sub li.active a {
+  color: #fff;
+  transition: all 0.3s ease;
+  display: block;
+  background: rgba(40, 40, 46, 0.28);
+}
+
+ul.sidebar-menu li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+ul.sidebar-menu li.sub-menu {
+  line-height: 15px;
+}
+
+ul.sidebar-menu ul.sub li {
+  border-bottom: none;
+}
+
+ul.sidebar-menu li a span {
+  display: inline-block;
+}
+
+ul.sidebar-menu li a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  padding: 18px 0 18px 25px;
+  font-size: 12px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+ul.sidebar-menu li a.active,
+ul.sidebar-menu li a:hover,
+ul.sidebar-menu li a:focus {
+  background: rgba(40, 40, 46, 0.28);
+  color: #fff;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+ul.sidebar-menu li a i {
+  font-size: 15px;
+  padding-right: 6px;
+}
+
+ul.sidebar-menu li a:hover i,
+ul.sidebar-menu li a:focus i {
+  color: #fff;
+}
+
+ul.sidebar-menu li a.active i {
+  color: #fff;
+}
+
+.mail-info,
+.mail-info:hover {
+  margin: -3px 6px 0 0;
+  font-size: 11px;
 }
 

@@ -36,6 +36,7 @@
                         <table class="border-top-0 table table-hover mb-0">
                             <tbody>
                             <?php $calc = json_decode($order->calculation); ?>
+                            <?php $ifee = json_decode($order->initial_fee); ?>
                             <tr>
                                 <td><b>Мижоз</b></td>
                                 <td><a href="{{ route('clients.show', $order->client_id) }}">{{ $order->client_name }}</a></td>
@@ -84,14 +85,36 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php $i = 1; ?>
+                                <tr>
+                                    <td>Бошлангич тулов</td>
+                                    <td>{{ number_format($ifee->initial_fee,0,'',' ') }}</td>
+                                    <td>{{ $order->order_date }}</td>
+                                    <td>
+                                        @if(!$ifee->paid)
+                                            <i class="text-danger fa fa-window-close"></i> <b class="text-danger">Туланмаган</b>
+                                        @else
+                                            <i class="text-success fa fa-check"></i> <b class="text-success">Туланган</b>
+                                        @endif
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            <?php $i = 1; $button = 0 ?>
                             @foreach($payments as $pm)
 
                                 <tr>
                                     <td>{{ $i }}-ой</td>
                                     <td>{{ number_format($pm->payment_amount,0,'',' ') }}</td>
                                     <td>{{ $pm->payment_date }}</td>
-                                    <td>{{ (!$pm->payment_method)? 'Туланмаган' : $pm->payment_method }}</td>
+                                    <td>
+                                        @if(!$pm->payment_method && !$button)
+                                            <button type="button" data-toggle="modal" data-target="#payModal" class="btn btn-success"><i class="fa fa-check"></i> Тулаш</button>
+                                            <?php $button = $pm->id ?>
+                                        @elseif (!$pm->payment_method && $button)
+                                            <i class="text-danger fa fa-window-close"></i> <b class="text-danger">Туланмаган</b>
+                                        @else
+                                            <i class="text-success fa fa-check"></i> <b class="text-success">Туланган</b>
+                                        @endif
+                                    </td>
                                     <td>{{ $pm->note }}</td>
                                 </tr>
                                 <?php $i++; ?>
@@ -100,7 +123,10 @@
                             <tfoot>
                             <tr>
                                 <td><b>Жами</b></td>
-                                <td><b>{{ $calc->total_price }}</b></td>
+                                <td><b>{{ number_format($calc->total_price,0,'',' ') }}</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             </tfoot>
                         </table>
@@ -152,7 +178,44 @@
                 </div>
 
 
-
+                <!-- Modal -->
+                <div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form method="post" action="{{ url('payments/'.$button.'/pay') }}">
+                                @csrf
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Туловни амалга ошириш</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="payment_date"></label>
+                                            <input name="payment_date" type="date" id="payment_date" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="payment_method"></label>
+                                            <select name="payment_method" id="payment_method" class="form-control">
+                                                <option value="Карта утказмаси">Карта утказмаси</option>
+                                                <option value="Карта оркали">Карта оркали</option>
+                                                <option value="Банк утказмаси">Банк утказмаси</option>
+                                                <option value="Накд">Накд</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="note"></label>
+                                            <input name="note" type="text" id="note" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> Ёпиш</button>
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Тулаш</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
 
 

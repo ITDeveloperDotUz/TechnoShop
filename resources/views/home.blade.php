@@ -13,57 +13,57 @@
         <div class="align-center grids-2">
             <div class="four-grid">
                 <a href="{{ route('clients.index') }}">
-                    <div class="four-grid1">
+                    <div class="four-grid1 bg-green-o">
                         <div class="icon">
-                            <i class=" fa fa-user user" aria-hidden="true"></i>
+                            <i class=" fa fa-user bg-green" aria-hidden="true"></i>
                         </div>
                         <div class="four-text">
                             <h3>Мижозлар</h3>
                             <h4>{{ $clients }}</h4>
                         </div>
-                        <a href="{{ route('clients.create') }}"><i class="fa fa-plus"></i></a>
+                        <a class="bg-green" href="{{ route('clients.create') }}"><i class="fa fa-plus"></i></a>
                     </div>
                 </a>
             </div>
             <div class="four-grid">
                 <a href="{{ route('categories.index') }}">
-                    <div class="four-grid2">
+                    <div class="four-grid2 bg-purple-o">
                         <div class="icon">
-                            <i class="fa fa-align-justify align-justify " aria-hidden="true"></i>
+                            <i class="fa fa-align-justify bg-purple" aria-hidden="true"></i>
                         </div>
                         <div class="four-text">
                             <h3>Булимлар</h3>
                             <h4>{{ $categories }}</h4>
                         </div>
-                        <a href="{{ route('categories.create') }}"><i class="fa fa-plus"></i></a>
+                        <a class="bg-purple" href="{{ route('categories.create') }}"><i class="fa fa-plus"></i></a>
                     </div>
                 </a>
             </div>
             <div class="four-grid">
                 <a href="{{ route('products.index') }}">
-                    <div class="four-grid3">
+                    <div class="four-grid3 bg-orange-o">
                         <div class="icon">
-                            <i class="fa fa-box bell" aria-hidden="true"></i>
+                            <i class="fa fa-box bg-orange" aria-hidden="true"></i>
                         </div>
                         <div class="four-text">
-                            <h3>Махсулотлар</h3>
+                            <h3>Махсулот турлари</h3>
                             <h4>{{ $products }}</h4>
                         </div>
-                        <a href="{{ route('products.create') }}"><i class="fa fa-plus"></i></a>
+                        <a class="bg-orange" href="{{ route('products.create') }}"><i class="fa fa-plus"></i></a>
                     </div>
                 </a>
             </div>
             <div class="four-grid">
                 <a href="{{ route('product_incomes.index') }}">
-                    <div class="four-grid4">
+                    <div class="four-grid4 bg-blue-o">
                         <div class="icon">
-                            <i class="fa fa-edit shopping-cart" aria-hidden="true"></i>
+                            <i class="fa fa-edit bg-blue" aria-hidden="true"></i>
                         </div>
                         <div class="four-text">
-                            <h3>Киримлар</h3>
-                            <h4>26</h4>
+                            <h3>Махсулотлар</h3>
+                            <h4>{{ $prodIns }}</h4>
                         </div>
-                        <a href="{{ route('product_incomes.create') }}"><i class="fa fa-plus"></i></a>
+                        <a class="bg-blue" href="{{ route('product_incomes.create') }}"><i class="fa fa-plus"></i></a>
                     </div>
                 </a>
             </div>
@@ -75,9 +75,23 @@
                         </div>
                         <div class="four-text">
                             <h3>Буюртмалар</h3>
-                            <h4>26</h4>
+                            <h4>{{ $orders }}</h4>
                         </div>
-                        <a href="{{ route('orders.create') }}"><i class="fa fa-plus"></i></a>
+                        <a class="bg-danger" href="{{ route('orders.create') }}"><i class=" fa fa-plus"></i></a>
+                    </div>
+                </a>
+            </div>
+            <div class="four-grid">
+                <a href="{{ route('payments.index') }}">
+                    <div class="four-grid4 bg-yellow-o">
+                        <div class="icon">
+                            <i class="bg-yellow fa fa-money-check" aria-hidden="true"></i>
+                        </div>
+                        <div class="four-text">
+                            <h3>Туловлар</h3>
+                            <h4>{{ $orders }}</h4>
+                        </div>
+                        <a class="bg-yellow" href="{{ route('payments.create') }}"><i class="fa fa-plus"></i></a>
                     </div>
                 </a>
             </div>

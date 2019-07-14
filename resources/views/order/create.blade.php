@@ -108,26 +108,24 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label  for="total_payment" class="col-md-2 col-form-label">Умумий тулов</label>
-                                        <div class="col-md-4">
-                                            <input disabled id="total_payment" v-model="total_payment" class="form-control" type="number" placeholder="Cум" name="total_payment">
-                                        </div>
-                                    </div>
+
                                     <div class="form-group row">
                                         <label for="paid_payment" class="col-md-2 col-form-label">Жорий тулов</label>
                                         <div class="col-md-4">
                                             <input disabled id="paid_payment" v-model="paid_payment" class="form-control" type="number" placeholder="Cум" name="paid_payment">
                                         </div>
-                                        <label v-show="paid_payment > 0" class="col-xs-6 col-md-2 col-form-label">Туланди</label>
-                                        <div v-show="paid_payment > 0" class="col">
-                                            <input id="paid" v-model="paid" class="form-control" type="checkbox" name="paid">
-                                            <div class="[ btn-group ]">
-                                                <label for="paid" class="[ btn btn-primary ]">
-                                                    <span class="fa fa-check"></span>
-                                                    <span> </span>
-                                                </label>
-                                            </div>
+                                        <div v-show="paid_payment > 0" class="col-md-3">
+                                            <select id="payment_method" v-model="payment_method" class="form-control">
+                                                <option disabled selected value="">Тулов тури</option>
+                                                <option value="0">Туланмаган</option>
+                                                <option value="Карта утказмаси">Карта утказмаси</option>
+                                                <option value="Карта оркали">Карта оркали</option>
+                                                <option value="Банк утказмаси">Банк утказмаси</option>
+                                                <option value="Накд">Накд</option>
+                                            </select>
+                                        </div>
+                                        <div v-show="paid_payment > 0" class="col-3">
+                                            <input type="text" class="form-control" placeholder="Эслатма">
                                         </div>
                                     </div>
                                     <div v-show="payment_count > 0" class="form-group row">
@@ -135,6 +133,12 @@
                                         <div class="col-md-4">
                                             <input disabled id="remaining_payment" v-model="remaining_payment" class="form-control" type="number" placeholder="Cум" name="remaining_payment">
                                             <input v-model="sentData" type="hidden" name="sent">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label  for="total_payment" class="col-md-2 col-form-label">Умумий тулов</label>
+                                        <div class="col-md-4">
+                                            <input disabled id="total_payment" v-model="total_payment" class="form-control" type="number" placeholder="Cум" name="total_payment">
                                         </div>
                                     </div>
                                     <div class="mt-3">
