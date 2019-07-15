@@ -18,6 +18,7 @@ class CreatePaymentsTable extends Migration
             $table->integer('order_id');
             $table->integer('client_id');
             $table->string('client_name');
+            $table->string('type')->default(1);
             $table->string('contract_number')->nullable();
             $table->string('payment_amount');
             $table->string('payment_method')->nullable();

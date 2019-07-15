@@ -11,6 +11,7 @@ class Payment extends Model
         'order_id',
         'client_id',
         'client_name',
+        'type',
         'contract_number',
         'payment_amount',
         'payment_method',

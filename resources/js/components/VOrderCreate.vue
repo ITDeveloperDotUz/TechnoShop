@@ -27,6 +27,7 @@
                 },
                 payments: {},
                 payment_method: '',
+                payment_type: 0,
                 payment_date: '',
                 payment_count: 0,
                 initial_fee: 0,
@@ -104,12 +105,15 @@
 
                 if(pmc == 0){
                     this.paid_payment = tprice;
+                    this.payment_type = 1;
                 } else if (pmc > 0 && ifee > 0) {
                     this.paid_payment = ifee;
                     this.remaining_payment = tprice - ifee
+                    this.payment_type = 2;
                 } else {
                     this.remaining_payment = tprice
-                    this.paid_payment = 0
+                    this.paid_payment = 0;
+                    this.payment_type = 0;
                 }
                 this.renderPayment();
             },
@@ -143,6 +147,7 @@
                     initial_fee: {
                         initial_fee: this.initial_fee,
                         payment_method: this.payment_method,
+                        payment_type: this.payment_type,
                         payment_date: this.order_date,
                         payment_count: this.payment_count,
                     },
@@ -153,8 +158,8 @@
                 axios.post('/orders',
                     this.sentData
                 ).then((response) => {
+                    //this.id = response.data
                     console.log(response.data)
-                    this.id = response.data
                     //document.location = '/orders';
                 }).catch(function (error) {
                     console.log(error);

@@ -59,6 +59,7 @@ class PaymentController extends Controller
         $order = $payment->order;
 
         $payment->payment_method = $request->input('payment_method');
+        $payment->type = $request->input('payment_type');
         $payment->payment_date = $request->input('payment_date');
         $payment->note = $request->input('note');
 

@@ -77,8 +77,43 @@ class OrderController extends Controller
         try{
             $order->save();
         } catch (\Exception $e){
-            return $e->getMessage();
+            return response()->json($e->getMessage());
         }
+
+        $payments = (count($inp['payments']) < 1)? 0 : json_encode($inp['payments']) ;
+
+        $oPm = $inp['initial_fee'];
+        if($oPm['initial_fee'] != 0){
+            $payment = new Payment;
+            $payment->payment_amount = $oPm['initial_fee'];
+            $payment->client_name = $inp['client_name'];
+            $payment->type = $oPm['payment_type'];
+            $payment->payment_date = $oPm['payment_date'];
+            $payment->payment_method = $oPm['payment_method'];
+            $payment->order_id = $order->id;
+            $payment->client_id = $order->client_id;
+
+            $payment->save();
+
+        }
+
+        foreach($payments as $pm){
+            $data = [
+                'order_id' => $id,
+                'client_id' => $order->client_id,
+                'client_name' => $order->client_name,
+                'contract_number' => $order->client_id.'/'.$id,
+                'payment_amount' => $pm->payment_amount,
+                'payment_date' => $pm->payment_date,
+            ];
+
+            try{
+                Payment::create($data);
+            } catch (\Exception $e){
+                return response()->json(['success' => false, 'message' => $e->getMessage()]);
+            }
+        }
+
         return $order->id;
     }
 
@@ -86,24 +121,25 @@ class OrderController extends Controller
         $order = Order::where('id', $id)->first();
         $payments = json_decode($order->payments);
         $products = json_decode($order->products);
-        if($payments){
-            foreach($payments as $pm){
-                $data = [
-                    'order_id' => $id,
-                    'client_id' => $order->client_id,
-                    'client_name' => $order->client_name,
-                    'contract_number' => $order->client_id.'/'.$id,
-                    'payment_amount' => $pm->payment_amount,
-                    'payment_date' => $pm->payment_date,
-                ];
 
-                try{
-                    Payment::create($data);
-                } catch (\Exception $e){
-                    return response()->json(['success' => false, 'message' => $e->getMessage()]);
-                }
+
+        foreach($payments as $pm){
+            $data = [
+                'order_id' => $id,
+                'client_id' => $order->client_id,
+                'client_name' => $order->client_name,
+                'contract_number' => $order->client_id.'/'.$id,
+                'payment_amount' => $pm->payment_amount,
+                'payment_date' => $pm->payment_date,
+            ];
+
+            try{
+                Payment::create($data);
+            } catch (\Exception $e){
+                return response()->json(['success' => false, 'message' => $e->getMessage()]);
             }
         }
+
 
         foreach ($products as $product){
             $pr = Product::where('id', $product->id)->first();
@@ -125,8 +161,8 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id){
+
         $order = Order::where('id', $id)->first();
         $payments = $order->payment;
         $products = json_decode($order->products);

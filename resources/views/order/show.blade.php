@@ -36,7 +36,6 @@
                         <table class="border-top-0 table table-hover mb-0">
                             <tbody>
                             <?php $calc = json_decode($order->calculation); ?>
-                            <?php $ifee = json_decode($order->initial_fee); ?>
                             <tr>
                                 <td><b>Мижоз</b></td>
                                 <td><a href="{{ route('clients.show', $order->client_id) }}">{{ $order->client_name }}</a></td>
@@ -85,32 +84,28 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Бошлангич тулов</td>
-                                    <td>{{ number_format($ifee->initial_fee,0,'',' ') }}</td>
-                                    <td>{{ $order->order_date }}</td>
-                                    <td>
-                                        @if(!$ifee->paid)
-                                            <i class="text-danger fa fa-window-close"></i> <b class="text-danger">Туланмаган</b>
-                                        @else
-                                            <i class="text-success fa fa-check"></i> <b class="text-success">Туланган</b>
-                                        @endif
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            <?php $i = 1; $button = 0 ?>
+                            <?php $i = 1; $payment_id = 0 ?>
                             @foreach($payments as $pm)
-
                                 <tr>
-                                    <td>{{ $i }}-ой</td>
+                                    @if($pm->type == 2)
+                                        <td>Бошлангич тулов</td>
+                                        <?php
+                                            $i = 0;
+                                        ?>
+                                    @else
+                                        <td>{{ $i }}-ой</td>
+                                    @endif
                                     <td>{{ number_format($pm->payment_amount,0,'',' ') }}</td>
                                     <td>{{ $pm->payment_date }}</td>
                                     <td>
-                                        @if(!$pm->payment_method && !$button)
+                                        @if(!$pm->payment_method && !$payment_id)
                                             <button type="button" data-toggle="modal" data-target="#payModal" class="btn btn-success"><i class="fa fa-check"></i> Тулаш</button>
-                                            <?php $button = $pm->id ?>
-                                            <?php $date = $pm->payment_date?>
-                                        @elseif (!$pm->payment_method && $button)
+                                            <?php $payment_id = $pm->id ?>
+                                            <?php $payment_type = $pm->type ?>
+                                            <?php $payment_date = $pm->payment_date?>
+                                            <?php $payment_amount = $pm->payment_amount?>
+                                            <?php $unpaid = true ?>
+                                        @elseif (!$pm->payment_method && $payment_id)
                                             <i class="text-danger fa fa-window-close"></i> <b class="text-danger">Туланмаган</b>
                                         @else
                                             <i class="text-success fa fa-check"></i> <b class="text-success">{{ $pm->payment_method }}</b>
@@ -177,25 +172,24 @@
                         </table>
                     </div>
                 </div>
-
-
-                <!-- Modal -->
+                @if(isset($unpaid))
                 <div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <form method="post" action="{{ url('payments/'.$button.'/pay') }}">
+                            <form method="post" action="{{ url('payments/'.$payment_id.'/pay') }}">
                                 @csrf
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Туловни амалга ошириш</h5>
                                 </div>
-                                <div class="modal-body">
+                                <div class="align-center modal-body">
+                                    <h4 class=" text-success">Тулов микдори - {{ isset($payment_amount)?number_format($payment_amount,0,'',' '):'' }}</h4>
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label for="payment_date"></label>
-                                            <input value="{{ isset($date)?$date:'' }}" name="payment_date" type="date" id="payment_date" class="form-control">
+                                            <label for="payment_date">Тулов санаси</label>
+                                            <input value="{{ isset($payment_date)?$payment_date:'' }}" name="payment_date" type="date" id="payment_date" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            <label for="payment_method"></label>
+                                            <label for="payment_method">Тулов тури</label>
                                             <select name="payment_method" id="payment_method" class="form-control">
                                                 <option value="Карта утказмаси">Карта утказмаси</option>
                                                 <option value="Карта оркали">Карта оркали</option>
@@ -204,8 +198,9 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="note"></label>
+                                            <label for="note">Эслатма</label>
                                             <input name="note" type="text" id="note" class="form-control">
+                                            <input name="payment_type" value="{{ $payment_type }}" type="hidden">
                                         </div>
                                     </div>
                                 </div>
@@ -217,14 +212,7 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
+                @endif
             </div>
         </div>
     </div>

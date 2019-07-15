@@ -2003,6 +2003,7 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       },
       payments: {},
       payment_method: '',
+      payment_type: 0,
       payment_date: '',
       payment_count: 0,
       initial_fee: 0,
@@ -2086,12 +2087,15 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
 
       if (pmc == 0) {
         this.paid_payment = tprice;
+        this.payment_type = 1;
       } else if (pmc > 0 && ifee > 0) {
         this.paid_payment = ifee;
         this.remaining_payment = tprice - ifee;
+        this.payment_type = 2;
       } else {
         this.remaining_payment = tprice;
         this.paid_payment = 0;
+        this.payment_type = 0;
       }
 
       this.renderPayment();
@@ -2113,8 +2117,6 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       }
     },
     submit: function submit() {
-      var _this2 = this;
-
       if (!this.validate()) {
         return;
       }
@@ -2129,6 +2131,7 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
         initial_fee: {
           initial_fee: this.initial_fee,
           payment_method: this.payment_method,
+          payment_type: this.payment_type,
           payment_date: this.order_date,
           payment_count: this.payment_count
         },
@@ -2137,8 +2140,8 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
         order_date: this.order_date
       };
       axios.post('/orders', this.sentData).then(function (response) {
-        console.log(response.data);
-        _this2.id = response.data; //document.location = '/orders';
+        //this.id = response.data
+        console.log(response.data); //document.location = '/orders';
       })["catch"](function (error) {
         console.log(error);
       });
