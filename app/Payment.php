@@ -18,11 +18,11 @@ class Payment extends Model
         'note'
     ];
 
-    public function payment(){
-        return $this->belongsTo('App\Order');
+    public function client(){
+        return $this->belongsTo('App\Client');
     }
 
     public function order(){
-        return $this->belongsTo('App\Client');
+        return $this->belongsTo('App\Order');
     }
 }

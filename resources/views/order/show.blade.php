@@ -109,10 +109,11 @@
                                         @if(!$pm->payment_method && !$button)
                                             <button type="button" data-toggle="modal" data-target="#payModal" class="btn btn-success"><i class="fa fa-check"></i> Тулаш</button>
                                             <?php $button = $pm->id ?>
+                                            <?php $date = $pm->payment_date?>
                                         @elseif (!$pm->payment_method && $button)
                                             <i class="text-danger fa fa-window-close"></i> <b class="text-danger">Туланмаган</b>
                                         @else
-                                            <i class="text-success fa fa-check"></i> <b class="text-success">Туланган</b>
+                                            <i class="text-success fa fa-check"></i> <b class="text-success">{{ $pm->payment_method }}</b>
                                         @endif
                                     </td>
                                     <td>{{ $pm->note }}</td>
@@ -191,7 +192,7 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="payment_date"></label>
-                                            <input name="payment_date" type="date" id="payment_date" class="form-control">
+                                            <input value="{{ isset($date)?$date:'' }}" name="payment_date" type="date" id="payment_date" class="form-control">
                                         </div>
                                         <div class="form-group">
                                             <label for="payment_method"></label>

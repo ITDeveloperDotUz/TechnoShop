@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Payment;
+use App\Order;
 
 class PaymentController extends Controller
 {
@@ -51,6 +53,28 @@ class PaymentController extends Controller
     public function GetByOrder($id){
         return redirect(route('home'));
     }
+
+    public function pay(Request $request, $id){
+        $payment = Payment::where('id',$id)->first();
+        $order = $payment->order;
+
+        $payment->payment_method = $request->input('payment_method');
+        $payment->payment_date = $request->input('payment_date');
+        $payment->note = $request->input('note');
+
+        $order->paid_payment += $payment->payment_amount;
+        $order->remaining_payment -= $payment->payment_amount;
+
+        $payment->save();
+        $order->save();
+
+
+
+
+        return redirect()->back();
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.
