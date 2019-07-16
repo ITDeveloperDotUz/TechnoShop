@@ -22,7 +22,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><i class="fa fa-info"> </i> <b>Маълумотлар</b></a>
                     </li>
-                    @if(count($payments) > 0)
+                    @if(count($payments) > 0 && $payments->first()->type != 1)
                         <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><i class="fa fa-money-check-alt"> </i> <b>Туловлар</b></a>
                         </li>
@@ -49,8 +49,26 @@
                                 <td>{{ number_format($calc->total_price,0,'',' ') }}</td>
                             </tr>
                             <tr>
-                                <td><b>Туланган сумма</b></td>
-                                <td>{{ number_format($order->paid_payment,0,'',' ') }}</td>
+                                <td><b>Тулов</b></td>
+                                <td>
+                                    @if(!$payments->first()->payment_method && $payments->first()->type == 1)
+                                        <button type="button" data-toggle="modal" data-target="#payModal" class="btn btn-success"><i class="fa fa-check"></i> Тулаш</button>
+                                        <?php $pm = $payments->first()?>
+                                        <?php $payment_id = $pm->id ?>
+                                        <?php $payment_type = $pm->type ?>
+                                        <?php $payment_date = $pm->payment_date?>
+                                        <?php $payment_amount = $pm->payment_amount?>
+                                        <?php $unpaid = true ?>
+                                    @elseif($payments->first()->payment_method && $payments->first()->type == 1)
+                                        <b class="text-success">Сана - {{ $payments->first()->payment_date }}</b>
+                                        <br>
+                                        <b class="text-success">Сумма - {{ number_format($payments->first()->payment_amount,0,'',' ') }}</b>
+                                        <br>
+                                        <i class="text-success fa fa-check"></i> <b class="text-success">Тури - {{ $payments->first()->payment_method }}</b>
+                                    @else
+                                        {{ number_format($order->paid_payment,0,'',' ') }}
+                                    @endif
+                                </td>
                             </tr>
                             <tr>
                                 <td><b>Жорий карздорлик</b></td>

@@ -2088,6 +2088,8 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       if (pmc == 0) {
         this.paid_payment = tprice;
         this.payment_type = 1;
+        this.initial_fee = 0;
+        this.remaining_payment = 0;
       } else if (pmc > 0 && ifee > 0) {
         this.paid_payment = ifee;
         this.remaining_payment = tprice - ifee;
@@ -2106,17 +2108,20 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
       var pmc = this.payment_count;
       var rpm = this.remaining_payment;
       var monthly_pm = Math.round(rpm / pmc / 1000) * 1000;
-      this.payment_diff = this.remaining_payment - monthly_pm * pmc;
+      this.payment_diff = this.remaining_payment - monthly_pm * pmc || 0;
 
       for (var i = 0; i < pmc; i++) {
         pms['pm' + (i + 1)] = {
           payment_date: moment(this.order_date).add(i + 1, 'M').format('YYYY-MM-DD'),
           payment_amount: i + 1 == pmc ? monthly_pm + this.payment_diff : monthly_pm,
+          payment_type: 3,
           id: i + 1
         };
       }
     },
     submit: function submit() {
+      var _this2 = this;
+
       if (!this.validate()) {
         return;
       }
@@ -2135,26 +2140,26 @@ Vue.component('v-product-options', _VProductOptions__WEBPACK_IMPORTED_MODULE_1__
           payment_date: this.order_date,
           payment_count: this.payment_count
         },
-        paid_payment: this.paid_payment,
-        remaining_payment: this.remaining_payment,
+        paid_payment: this.payment_type === 1 && (this.payment_method === '0' || this.payment_method === '') ? 0 : this.calculation.total_price,
+        remaining_payment: this.payment_type === 1 && (this.payment_method === '0' || this.payment_method === '') ? this.calculation.total_price : this.remaining_payment,
         order_date: this.order_date
       };
       axios.post('/orders', this.sentData).then(function (response) {
-        //this.id = response.data
+        _this2.id = response.data;
         console.log(response.data); //document.location = '/orders';
       })["catch"](function (error) {
         console.log(error);
       });
     },
     confirm: function confirm() {
-      if (this.payment_method) {
-        axios.get('/orders/' + this.id + '/confirm').then(function (response) {
-          document.getElementById('confirmed').disabled = true;
-          document.getElementById('save').disabled = true;
-        });
-      } else {
-        alert('Буюуртмани тасдиклаш учун Бошлангич ёки умумий тулов амалга оширилиши шарт!');
-      }
+      axios.get('/orders/' + this.id + '/confirm').then(function (response) {
+        console.log(response.data); // if(response.data.success){
+        //     document.getElementById('confirmed').disabled = true
+        //     document.getElementById('save').disabled = true
+        // } else {
+        //     alert(response.data.message);
+        // }
+      });
     },
     validate: function validate() {
       if (!this.client.value) {

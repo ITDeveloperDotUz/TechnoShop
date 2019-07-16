@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Session;
 use App\Category;
 use App\Product;
 use App\ProdIn;
@@ -80,7 +81,7 @@ class OrderController extends Controller
             return response()->json($e->getMessage());
         }
 
-        $payments = (count($inp['payments']) < 1)? 0 : json_encode($inp['payments']) ;
+
 
         $oPm = $inp['initial_fee'];
         if($oPm['initial_fee'] != 0){
@@ -94,53 +95,61 @@ class OrderController extends Controller
             $payment->client_id = $order->client_id;
 
             $payment->save();
-
         }
 
-        foreach($payments as $pm){
-            $data = [
-                'order_id' => $id,
-                'client_id' => $order->client_id,
-                'client_name' => $order->client_name,
-                'contract_number' => $order->client_id.'/'.$id,
-                'payment_amount' => $pm->payment_amount,
-                'payment_date' => $pm->payment_date,
-            ];
+        if($oPm['payment_type'] == 1){
+            $payment = new Payment;
+            $payment->payment_amount = $order->paid_payment;
+            $payment->client_name = $inp['client_name'];
+            $payment->type = $oPm['payment_type'];
+            $payment->payment_date = $oPm['payment_date'];
+            $payment->payment_method = $oPm['payment_method'];
+            $payment->order_id = $order->id;
+            $payment->client_id = $order->client_id;
 
-            try{
-                Payment::create($data);
-            } catch (\Exception $e){
-                return response()->json(['success' => false, 'message' => $e->getMessage()]);
+            $payment->save();
+        }
+
+        if($payments = (count($inp['payments']) < 1)? 0 : $inp['payments']){
+            foreach($payments as $pm){
+                $data = [
+                    'order_id' => $order->id,
+                    'client_id' => $order->client_id,
+                    'type' => $pm['payment_type'],
+                    'client_name' => $order->client_name,
+                    'contract_number' => $order->client_id.'/'.$order->id,
+                    'payment_amount' => $pm['payment_amount'],
+                    'payment_date' => $pm['payment_date'],
+                ];
+
+                try{
+                    Payment::create($data);
+                } catch (\Exception $e){
+                    return response()->json(['success' => false, 'message' => $e->getMessage()]);
+                }
             }
         }
+
 
         return $order->id;
     }
 
-    public function confirm($id){
+    public function confirm($id, Request $request){
         $order = Order::where('id', $id)->first();
         $payments = json_decode($order->payments);
         $products = json_decode($order->products);
+        $firstPayment = $order->payment->first();
 
-
-        foreach($payments as $pm){
-            $data = [
-                'order_id' => $id,
-                'client_id' => $order->client_id,
-                'client_name' => $order->client_name,
-                'contract_number' => $order->client_id.'/'.$id,
-                'payment_amount' => $pm->payment_amount,
-                'payment_date' => $pm->payment_date,
-            ];
-
-            try{
-                Payment::create($data);
-            } catch (\Exception $e){
-                return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        if(
+            ($order->paid_payment != 0 && $firstPayment->payment_method == false) ||
+            ($firstPayment->type && $firstPayment->payment_method == false)
+        ){
+            if($request->ajax()){
+                return json_encode(['success' => false, 'message' => 'Туловни курсатиш шарт']);
+            } else {
+                return redirect()->back()->withErrors(['message' => 'Туловни курсатиш шарт']);
             }
         }
-
-
         foreach ($products as $product){
             $pr = Product::where('id', $product->id)->first();
             $pr->available -= $product->count;
@@ -152,7 +161,12 @@ class OrderController extends Controller
 
         $order->confirmed = true;
         $order->save();
-        return redirect()->back();
+
+        if($request->ajax()){
+            return json_encode(['success' => false, 'message' => 'Туловни курсатиш шарт']);
+        } else {
+            return redirect()->back()->with('success', 'Буюртма тасдикланди');
+        }
     }
 
     /**

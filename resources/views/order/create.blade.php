@@ -45,21 +45,25 @@
                                 <div class="card-body">
                                     <table class="table data-table">
                                         <thead>
-                                        <th>Номи</th>
-                                        <th>Сони</th>
-                                        <th>Умумий нарх</th>
-                                        <th>Соф фойда</th>
-                                        <th>Тан нархи</th>
+                                        <tr>
+                                            <th>Номи</th>
+                                            <th>Сони</th>
+                                            <th>Умумий нарх</th>
+                                            <th>Соф фойда</th>
+                                            <th>Тан нархи</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
                                         <tr is="v-product-options" v-model="products" v-for="aproduct in products" v-bind="aproduct" :key="'product'+aproduct.id" @update="updated"></tr>
                                         </tbody>
                                         <tfoot>
-                                        <td>Жами: </td>
-                                        <td><b>@{{ (calculation.total_count) }}</b></td>
-                                        <td><b>@{{ c(calculation.total_price) }}</b></td>
-                                        <td><b>@{{ c(calculation.total_profit) }}</b></td>
-                                        <td><b>@{{ c(calculation.total_cost) }}</b></td>
+                                        <tr>
+                                            <td>Жами: </td>
+                                            <td><b>@{{ (calculation.total_count) }}</b></td>
+                                            <td><b>@{{ c(calculation.total_price) }}</b></td>
+                                            <td><b>@{{ c(calculation.total_profit) }}</b></td>
+                                            <td><b>@{{ c(calculation.total_cost) }}</b></td>
+                                        </tr>
                                         </tfoot>
                                     </table>
                                 </div>

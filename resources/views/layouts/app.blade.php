@@ -70,6 +70,30 @@
             </div>
         </nav>
         <main class="py-4">
+            @if(count($errors))
+                <div class="container-fluid mb-3">
+                    <div class="card alert alert-danger">
+                        <h4>{{ count($errors) }} та хато мавжуд</h4>
+                        <ul class="list-group">
+                            @foreach($errors->all() as $error)
+                                <p class="text-danger "><b>{{ $error }}</b></p>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+            @if(Session::has('success'))
+                    <div class="container-fluid mb-3">
+                        <div class="card alert alert-success">
+                            <h4>Бажарилди!</h4>
+                            <ul class="list-group">
+                                <p class="text-success"><b><i class="fa fa-check"></i> {{ Session::get('success') }}</b></p>
+                            </ul>
+                        </div>
+                    </div>
+            @endif
+
+
             @yield('content')
         </main>
     </div>
