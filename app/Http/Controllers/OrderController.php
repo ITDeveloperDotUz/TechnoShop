@@ -99,7 +99,7 @@ class OrderController extends Controller
 
         if($oPm['payment_type'] == 1){
             $payment = new Payment;
-            $payment->payment_amount = $order->paid_payment;
+            $payment->payment_amount = ($order->paid_payment != 0)? $order->paid_payment : $order->remaining_payment;
             $payment->client_name = $inp['client_name'];
             $payment->type = $oPm['payment_type'];
             $payment->payment_date = $oPm['payment_date'];
