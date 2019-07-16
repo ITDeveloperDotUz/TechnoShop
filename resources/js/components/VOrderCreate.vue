@@ -140,6 +140,17 @@
                 if(!this.validate()){
                     return
                 }
+                if(this.payment_method === '0' || this.payment_method === ''){
+                    var paid = 0;
+                    var remaining = this.calculation.total_price;
+                } else if (this.payment_type === 1) {
+                    var paid = this.calculation.total_price;
+                    var remaining = 0;
+                } else if (this.payment_type !== 1) {
+                    var paid = this.paid_payment;
+                    var remaining = this.remaining_payment;
+                }
+
                 this.sentData = {
                     id: this.id,
                     client_id: this.client.value,
@@ -154,8 +165,8 @@
                         payment_date: this.order_date,
                         payment_count: this.payment_count,
                     },
-                    paid_payment: (this.payment_type === 1 && (this.payment_method === '0' || this.payment_method === ''))?0:this.calculation.total_price,
-                    remaining_payment: (this.payment_type === 1 && (this.payment_method === '0' || this.payment_method === ''))?this.calculation.total_price:this.remaining_payment,
+                    paid_payment: paid,
+                    remaining_payment: remaining,
                     order_date: this.order_date,
                 };
                 axios.post('/orders',

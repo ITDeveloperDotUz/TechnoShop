@@ -61,8 +61,10 @@ class OrderController extends Controller
         $inp = $request->input();
         if($inp['id'] == 0){
             $order = new Order;
+            $orderType = 0;
         } else {
             $order = Order::where('id', $inp['id'])->first();
+            $orderType = 1;
         }
 
         $order->client_id = $inp['client_id'];
@@ -85,7 +87,8 @@ class OrderController extends Controller
 
         $oPm = $inp['initial_fee'];
         if($oPm['initial_fee'] != 0){
-            $payment = new Payment;
+
+            $payment = $orderType ? $order->payment->where('type', 2)->first() : new Payment;
             $payment->payment_amount = $oPm['initial_fee'];
             $payment->client_name = $inp['client_name'];
             $payment->type = $oPm['payment_type'];
@@ -98,7 +101,7 @@ class OrderController extends Controller
         }
 
         if($oPm['payment_type'] == 1){
-            $payment = new Payment;
+            $payment = $orderType ? $order->payment->where('type', 1)->first() : new Payment;
             $payment->payment_amount = ($order->paid_payment != 0)? $order->paid_payment : $order->remaining_payment;
             $payment->client_name = $inp['client_name'];
             $payment->type = $oPm['payment_type'];
@@ -111,6 +114,7 @@ class OrderController extends Controller
         }
 
         if($payments = (count($inp['payments']) < 1)? 0 : $inp['payments']){
+            Payment::where('order_id', $order->id)->delete();
             foreach($payments as $pm){
                 $data = [
                     'order_id' => $order->id,
@@ -136,7 +140,6 @@ class OrderController extends Controller
 
     public function confirm($id, Request $request){
         $order = Order::where('id', $id)->first();
-        $payments = json_decode($order->payments);
         $products = json_decode($order->products);
         $firstPayment = $order->payment->first();
 
