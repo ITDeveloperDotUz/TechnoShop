@@ -37,11 +37,13 @@
                                     <td>
 
                                         @if(!$order->confirmed)
-                                            <a class="btn btn-info" href="{{ route('orders.edit', $order->id) }}" ><i class="fa fa-edit"></i></a>
+                                            <!--a class="btn btn-info" href="{{ route('orders.edit', $order->id) }}" ><i class="fa fa-edit"></i></a-->
                                             <a class="btn btn-success" href="{{ url('/orders/'.$order->id.'/confirm' ) }}"><i class="fa fa-check"></i></a>
-                                        @endif
-                                        @if(count($order->payment) > 0)
-                                            <a class="btn btn-primary" href="{{ url('/payments/'.$order->id.'/order' ) }}"><i class="fa fa-money-check"></i></a>
+                                                <form class="float-right" method="post" action="{{ route('orders.destroy', $order->id) }}">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash-alt"></i></button>
+                                                </form>
                                         @endif
                                     </td>
                                 </tr>

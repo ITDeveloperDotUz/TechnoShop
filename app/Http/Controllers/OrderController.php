@@ -12,7 +12,6 @@ use App\Payment;
 use App\Order;
 
 
-
 class OrderController extends Controller
 {
     /**
@@ -33,8 +32,6 @@ class OrderController extends Controller
      */
     public function create()
     {
-
-
         return view('order.create');
     }
 
@@ -83,38 +80,26 @@ class OrderController extends Controller
             return response()->json($e->getMessage());
         }
 
-
-
         $oPm = $inp['initial_fee'];
-        if($oPm['initial_fee'] != 0){
-
-            $payment = $orderType ? $order->payment->where('type', 2)->first() : new Payment;
-            $payment->payment_amount = $oPm['initial_fee'];
-            $payment->client_name = $inp['client_name'];
-            $payment->type = $oPm['payment_type'];
-            $payment->payment_date = $oPm['payment_date'];
-            $payment->payment_method = $oPm['payment_method'];
-            $payment->order_id = $order->id;
-            $payment->client_id = $order->client_id;
-
-            $payment->save();
-        }
-
-        if($oPm['payment_type'] == 1){
-            $payment = $orderType ? $order->payment->where('type', 1)->first() : new Payment;
-            $payment->payment_amount = ($order->paid_payment != 0)? $order->paid_payment : $order->remaining_payment;
-            $payment->client_name = $inp['client_name'];
-            $payment->type = $oPm['payment_type'];
-            $payment->payment_date = $oPm['payment_date'];
-            $payment->payment_method = $oPm['payment_method'];
-            $payment->order_id = $order->id;
-            $payment->client_id = $order->client_id;
-
-            $payment->save();
-        }
 
         if($payments = (count($inp['payments']) < 1)? 0 : $inp['payments']){
             Payment::where('order_id', $order->id)->delete();
+
+            if($oPm['payment_type'] == 2){
+                $payment = new Payment;
+                $payment->payment_amount = $oPm['initial_fee'];
+                $payment->client_name = $inp['client_name'];
+                $payment->type = $oPm['payment_type'];
+                $payment->payment_date = $oPm['payment_date'];
+                $payment->payment_method = $oPm['payment_method'];
+                $payment->order_id = $order->id;
+                $payment->client_id = $order->client_id;
+
+                \Log::info($payment);
+
+                $payment->save();
+            }
+
             foreach($payments as $pm){
                 $data = [
                     'order_id' => $order->id,
@@ -132,8 +117,18 @@ class OrderController extends Controller
                     return response()->json(['success' => false, 'message' => $e->getMessage()]);
                 }
             }
-        }
+        } else if ($oPm['payment_type'] == 1){
+            $payment = $orderType ? $order->payment->where('type', 1)->first() : new Payment;
+            $payment->payment_amount = ($order->paid_payment != 0)? $order->paid_payment : $order->remaining_payment;
+            $payment->client_name = $inp['client_name'];
+            $payment->type = $oPm['payment_type'];
+            $payment->payment_date = $oPm['payment_date'];
+            $payment->payment_method = $oPm['payment_method'];
+            $payment->order_id = $order->id;
+            $payment->client_id = $order->client_id;
 
+            $payment->save();
+        }
 
         return $order->id;
     }
@@ -218,6 +213,8 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Order::where('id', $id)->delete();
+        Payment::where('order_id', $id)->delete();
+        return redirect(route('orders.index'));
     }
 }
