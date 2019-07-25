@@ -51,6 +51,8 @@ Route::group(['middleware' => ['auth']], function(){
 //Payments
     Route::resource('payments', 'PaymentController');
     Route::get('payments/{id}/order', 'PaymentController@GetByOrder');
+    Route::get('payments/{get}/daily', 'PaymentController@daily');
+    Route::get('payments/{get}/expired', 'PaymentController@expired');
     Route::post('payments/{id}/pay', 'PaymentController@pay');
 
 

@@ -9,7 +9,7 @@
     @endif
 
 
-    <div class="mbtm-3">
+    <div class="">
         <div class="align-center grids-2">
             <div class="four-grid">
                 <a href="{{ route('clients.index') }}">

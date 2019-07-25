@@ -13027,6 +13027,12 @@ a.text-gray-dark:focus {
   }
 }
 
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
 .bg-none {
   background: none !important;
 }
@@ -13077,8 +13083,7 @@ body {
 }
 
 .mbtm-3 {
-  margin-bottom: 40px;
-  position: relative;
+  margin-bottom: 30px;
 }
 
 /* Framework */

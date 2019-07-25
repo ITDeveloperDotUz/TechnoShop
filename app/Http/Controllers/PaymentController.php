@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Payment;
 use App\Order;
+use App\Client;
 
 class PaymentController extends Controller
 {
@@ -15,7 +16,8 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        $payments = Payment::paginate(15);
+        return view('payment.index', ['payments' => $payments]);
     }
 
     /**
@@ -69,13 +71,22 @@ class PaymentController extends Controller
         $payment->save();
         $order->save();
 
-
-
-
         return redirect()->back();
     }
 
+    public function daily($str){
+        $payments = Payment::where('payment_date',date('Y-m-d', time()))->paginate(15);
 
+        return view('payment.index', ['payments' => $payments]);
+    }
+
+    public function expired($str){
+        $payments = Payment::where([['payment_method', null],['payment_date', '<=', date('Y-m-d', time())]])
+            ->orWhere([['payment_method', '0'],['payment_date', '<=', date('Y-m-d', time())]])
+            ->paginate(15);
+        //dd(Payment::where([['payment_method', '=', false],['payment_date', '<=', date('Y-m-d', time())]])->toSql());
+        return view('payment.index', ['payments' => $payments]);
+    }
 
     /**
      * Show the form for editing the specified resource.

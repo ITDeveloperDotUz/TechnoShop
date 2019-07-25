@@ -69031,6 +69031,11 @@ var app = new Vue({
   el: '#app'
 });
 moment.locale('ru');
+$(document).ready(function () {
+  $('#sidebarCollapse').on('click', function () {
+    $('#sidebar').toggleClass('active');
+  });
+});
 
 /***/ }),
 

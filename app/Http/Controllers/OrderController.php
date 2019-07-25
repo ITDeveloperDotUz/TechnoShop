@@ -90,12 +90,11 @@ class OrderController extends Controller
                 $payment->payment_amount = $oPm['initial_fee'];
                 $payment->client_name = $inp['client_name'];
                 $payment->type = $oPm['payment_type'];
+                $payment->contract_number = $order->client_id.'/'.$order->id;
                 $payment->payment_date = $oPm['payment_date'];
                 $payment->payment_method = $oPm['payment_method'];
                 $payment->order_id = $order->id;
                 $payment->client_id = $order->client_id;
-
-                \Log::info($payment);
 
                 $payment->save();
             }
