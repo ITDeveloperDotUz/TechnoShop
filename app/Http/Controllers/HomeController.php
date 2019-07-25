@@ -35,6 +35,9 @@ class HomeController extends Controller
         $clients = Client::count();
         $products = Product::count();
         $categories = Category::count();
+
+        $debts = Payment::getDebts();
+
         return view('home', [
             'clients' => $clients,
             'categories' => $categories,
@@ -42,6 +45,7 @@ class HomeController extends Controller
             'orders' => $orders,
             'payments' => $payments,
             'prodIns' => $prodIns,
+            'debts' => $debts,
         ]);
     }
 }

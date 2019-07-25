@@ -26,4 +26,10 @@ class Payment extends Model
     public function order(){
         return $this->belongsTo('App\Order');
     }
+
+    public static function getDebts(){
+        return Payment::where([['payment_method', null],['payment_date', '<=', date('Y-m-d', time())]])
+            ->orWhere([['payment_method', '0'],['payment_date', '<=', date('Y-m-d', time())]])
+            ->paginate(15);
+    }
 }

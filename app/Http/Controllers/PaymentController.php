@@ -81,9 +81,7 @@ class PaymentController extends Controller
     }
 
     public function expired($str){
-        $payments = Payment::where([['payment_method', null],['payment_date', '<=', date('Y-m-d', time())]])
-            ->orWhere([['payment_method', '0'],['payment_date', '<=', date('Y-m-d', time())]])
-            ->paginate(15);
+        $payments = Payment::getDebts();
         //dd(Payment::where([['payment_method', '=', false],['payment_date', '<=', date('Y-m-d', time())]])->toSql());
         return view('payment.index', ['payments' => $payments]);
     }
