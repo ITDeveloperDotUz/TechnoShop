@@ -10,7 +10,6 @@
                     <b>№000-{{ $order->id }} сонли буюртма</b>
                     @if(!$order->confirmed)
                         <div class="float-right">
-                            <a class="btn btn-info" href="{{ route('orders.edit', $order->id) }}"><i class="fa fa-edit">Узгартириш</i></a>
                             <a class="btn btn-success" href="{{ url('/orders/'.$order->id.'/confirm' ) }}"><i class="fa fa-check"> Тасдиклаш</i></a>
                             <form class="ml-1 float-right" method="post" action="{{ route('orders.destroy', $order->id) }}">
                                 @csrf

@@ -32,4 +32,8 @@ class Payment extends Model
             ->orWhere([['payment_method', '0'],['payment_date', '<=', date('Y-m-d', time())]])
             ->paginate(15);
     }
+
+    public static function getDaily(){
+        return Payment::where('payment_date',date('Y-m-d', time()))->paginate(15);
+    }
 }

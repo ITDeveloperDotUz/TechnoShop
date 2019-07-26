@@ -30,9 +30,9 @@
         @endif
 
         <!-- Page Content  -->
-        <div id="content">
-            <nav class="mb-3 bg-white navbar navbar-expand-lg">
-                <div class="container-fluid navbar-laravel">
+        <div id="content" class="sidebar-active">
+            <nav class="mb-3 bg-primary navbar navbar-expand-lg">
+                <div class="container-fluid">
                     @if($sidebar)
                         <button type="button" id="sidebarCollapse" class="btn btn-primary">
                             <i class="fas fa-align-left"></i>
@@ -111,6 +111,7 @@
                 </div>
             @endif
             @yield('content')
+            <div class="p-5"></div>
         </div>
     </div>
 </body>

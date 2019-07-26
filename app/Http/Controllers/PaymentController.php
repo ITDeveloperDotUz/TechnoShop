@@ -75,7 +75,7 @@ class PaymentController extends Controller
     }
 
     public function daily($str){
-        $payments = Payment::where('payment_date',date('Y-m-d', time()))->paginate(15);
+        $payments = Payment::getDaily();
 
         return view('payment.index', ['payments' => $payments]);
     }
