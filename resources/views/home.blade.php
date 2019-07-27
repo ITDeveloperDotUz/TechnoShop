@@ -101,7 +101,7 @@
     </div>
     <div class="row mb-lg-3">
         <div class="col-lg-8">
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header bg-danger text-white">
                     <div class="float-left">
                         <h4 class="card-title"><i class="fa fa-credit-card"></i> Туланмаган карзлар</h4>
@@ -145,54 +145,78 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-            <div class="col-lg-8">
-                <div class="card">
-                    <div class="card-header bg-info text-white">
-                        <div class="float-left">
-                            <h4 class="card-title"><i class="fa fa-credit-card"></i> Бугунги тулов</h4>
-                        </div>
-                        <div class="float-right">
-                            <a class="btn btn-default text-white" href="{{ url('/payments/get/daily') }}"><i class="fa fa-arrow-right"></i></a>
-                        </div>
+        <div class="col-lg-4">
+            <div class="card mb-3">
+                <div class="card-header bg-green text-white">
+                    <div class="float-left">
+                        <h4 class="card-title"><i class="fa fa-dollar-sign"></i> Бугунги тушум</h4>
                     </div>
-                    <div class="card-body p-0">
-                        <div class="b-table-stacked-lg">
-                            @if(count($dailyPayment))
-                                <table class="bg-light table data-table mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th class="th-lg"><a>Буюуртма <i class="fas fa-sort ml-1"></i></a></th>
-                                        <th class="th-lg"><a>Мижоз <i class="fas fa-sort ml-1"></i></a></th>
-                                        <th class="th-lg"><a>Тулов суммаси <i class="fas fa-sort ml-1"></i></a></th>
-                                        <th class="th-lg"><a>Тулов санаси <i class="fas fa-sort ml-1"></i></a></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($dailyPayment as $dp)
-                                        <tr>
-                                            <td><a class="btn btn-primary" href="{{ route('orders.show', $dp->order_id) }}"><i class="fa fa-shopping-cart"></i> {{ $dp->contract_number }}</a></td>
-                                            <td><a class="btn btn-primary" href="{{ route('clients.show', $dp->client_id) }}"><i class="fa fa-user"></i> {{ $dp->client->full_name }}</a></td>
-                                            <td><b>{{ number_format($dp->payment_amount, 0, '', ' ') }}</b></td>
-                                            <td>{{ $dp->payment_date }}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-
-                                </table>
-                            @else
-                                <div class="align-center">
-                                    <h2>
-                                        <i class="fa fa-search"></i> Бу кун учун тулов йук!
-                                    </h2>
-                                </div>
-                            @endif
-                        </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="">
+                        @if(count($dailyIncome))
+                            @foreach($dailyIncome as $income)
+                                {{ $income->payment_method }}
+                            @endforeach
+                        @else
+                            <div class="align-center">
+                                <h2>
+                                    <i class="fa fa-search"></i> Бу кун учун тушум йук!
+                                </h2>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <div class="float-left">
+                        <h4 class="card-title"><i class="fa fa-credit-card"></i> Бугунги тулов</h4>
+                    </div>
+                    <div class="float-right">
+                        <a class="btn btn-default text-white" href="{{ url('/payments/get/daily') }}"><i class="fa fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="b-table-stacked-lg">
+                        @if(count($dailyPayment))
+                            <table class="bg-light table data-table mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="th-lg"><a>Буюуртма <i class="fas fa-sort ml-1"></i></a></th>
+                                    <th class="th-lg"><a>Мижоз <i class="fas fa-sort ml-1"></i></a></th>
+                                    <th class="th-lg"><a>Тулов суммаси <i class="fas fa-sort ml-1"></i></a></th>
+                                    <th class="th-lg"><a>Тулов санаси <i class="fas fa-sort ml-1"></i></a></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($dailyPayment as $dp)
+                                    <tr>
+                                        <td><a class="btn btn-primary" href="{{ route('orders.show', $dp->order_id) }}"><i class="fa fa-shopping-cart"></i> {{ $dp->contract_number }}</a></td>
+                                        <td><a class="btn btn-primary" href="{{ route('clients.show', $dp->client_id) }}"><i class="fa fa-user"></i> {{ $dp->client->full_name }}</a></td>
+                                        <td><b>{{ number_format($dp->payment_amount, 0, '', ' ') }}</b></td>
+                                        <td>{{ $dp->payment_date }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+
+                            </table>
+                        @else
+                            <div class="align-center">
+                                <h2>
+                                    <i class="fa fa-search"></i> Бу кун учун тулов йук!
+                                </h2>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

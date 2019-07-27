@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Payment;
 use App\Order;
 use App\Client;
+use App\Income;
 
 class PaymentController extends Controller
 {
@@ -57,19 +58,7 @@ class PaymentController extends Controller
     }
 
     public function pay(Request $request, $id){
-        $payment = Payment::where('id',$id)->first();
-        $order = $payment->order;
-
-        $payment->payment_method = $request->input('payment_method');
-        $payment->type = $request->input('payment_type');
-        $payment->payment_date = $request->input('payment_date');
-        $payment->note = $request->input('note');
-
-        $order->paid_payment += $payment->payment_amount;
-        $order->remaining_payment -= $payment->payment_amount;
-
-        $payment->save();
-        $order->save();
+        Payment::pay($request, $id);
 
         return redirect()->back();
     }

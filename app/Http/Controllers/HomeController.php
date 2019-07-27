@@ -38,6 +38,7 @@ class HomeController extends Controller
 
         $debts = Payment::getDebts();
         $dailyPayment = Payment::getDaily();
+        $dailyIncome = Payment::getDailyIncome();
 
         return view('home', [
             'clients' => $clients,
@@ -48,6 +49,7 @@ class HomeController extends Controller
             'prodIns' => $prodIns,
             'debts' => $debts,
             'dailyPayment' => $dailyPayment,
+            'dailyIncome' => $dailyIncome,
         ]);
     }
 }
