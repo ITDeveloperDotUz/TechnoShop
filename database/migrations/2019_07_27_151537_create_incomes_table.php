@@ -17,8 +17,8 @@ class CreateIncomesTable extends Migration
             $table->integer('type');
             $table->string('title');
             $table->string('amount');
-            $table->string('note');
-            $table->string('params');
+            $table->string('note')->nullable();
+            $table->string('params')->nullable();
             $table->string('method');
             $table->string('date');
             $table->timestamps();
