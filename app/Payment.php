@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Income;
 
 class Payment extends Model
 {
@@ -39,21 +38,10 @@ class Payment extends Model
         $payment->type = $request->input('payment_type');
         $payment->payment_date = $request->input('payment_date');
         $payment->note = $request->input('note');
-        if(Income::where([['date', $payment->payment_date],['type', '!=', 0]])->count()){
-            $income = Income::where([['date', $payment->payment_date],['type', '!=', 0]])->get();
-        } else {
-            $income = new Income;
-        }
-        $income->type = 1;
-        $income->amount += (integer) $payment->payment_amount;
-        $income->title = $payment->payment_method;
-        $income->method = $payment->payment_method;
-        $income->date = $payment->payment_date;
 
         $order->paid_payment += $payment->payment_amount;
         $order->remaining_payment -= $payment->payment_amount;
 
-        $income->save();
         $payment->save();
         $order->save();
 
@@ -71,8 +59,15 @@ class Payment extends Model
     }
 
     public static function getDailyIncome(){
-        return Payment::where([['payment_method', '=', false],['payment_date', '=', date('Y-m-d', time())]])
-            ->paginate(15);
+        return Payment::where([['payment_method', false],['payment_date', date('Y-m-d', time())]])->paginate(15);
+    }
+
+    public static function getCalculation($params = false){
+        if($params === false){
+            return Payment::where();
+        } else {
+
+        }
     }
 }
 
