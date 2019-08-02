@@ -168,20 +168,6 @@
   background-color: #343a40 !important;
 }
 
-.card,
-.card > .card-header,
-.card > .card-body {
-  border-radius: 15px !important;
-}
-
-.card table {
-  border-radius: 15px;
-}
-
-.btn {
-  border-radius: 50px;
-}
-
 .icon-rounded {
   padding: 10px;
   color: #fff;
@@ -231,6 +217,11 @@
 .green-gradient {
   background: #007bff;
   background: linear-gradient(302deg, #0a2c12 0%, #28a745 50%, #86e29b 100%);
+}
+
+.yellow-gradient {
+  background: #007bff;
+  background: linear-gradient(302deg, #6d5200 0%, #ffc107 50%, #ffe7a0 100%);
 }
 
 .purple-gradient {

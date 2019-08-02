@@ -14,7 +14,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-                        <div class="r3_counter_box p-0 green-gradient">
+                        <div class="r3_counter_box p-0 yellow-gradient">
                             <a class="" href="{{ route('clients.create') }}">
                                 <div class="stats">
                                     <i class="float-left fa fa-user dollar2 icon-rounded"></i>
@@ -95,6 +95,56 @@
                         </a>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="r3_counter_box p-0 danger-gradient">
+                        <a class="" href="{{ route('orders.create') }}">
+                            <div class="stats">
+                                <i class="fa fa-shopping-basket icon-rounded"></i>
+                            </div>
+                        </a>
+                        <a class="" href="{{ route('orders.index') }}">
+                            <div class="stats">
+                                <h5><strong>{{ $orders }}</strong> та</h5>
+                                <span>Буюртма</span>
+                            </div>
+                            <i class="fa fa-shopping-basket bg-icon"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="r3_counter_box p-0 green-gradient">
+                        <a class="" href="#">
+                            <div class="stats">
+                                <i class="float-left fa fa-money-check-alt dollar2 icon-rounded"></i>
+                            </div>
+                        </a>
+                        <a class="" href="{{ url('payments/get/today') }}">
+                            <div class="stats">
+                                <h5><strong>{{ number_format($todayIncome['Жами'], 0, '', ' ') }}</strong> сум</h5>
+                                <span>{{ $todayIncome['Туловлар'] }} та тулов</span>
+                            </div>
+                            <i class="fa fa-dollar-sign bg-icon"></i>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="r3_counter_box p-0 green-gradient">
+                        <a class="" href="#">
+                            <div class="stats">
+                                <i class="float-left fa fa-calendar-check dollar2 icon-rounded"></i>
+                            </div>
+                        </a>
+                        <a class="" href="{{ url('payments/get/today') }}">
+                            <div class="stats">
+                                <h5><strong>{{ number_format($todayIncome['Жами'], 0, '', ' ') }}</strong> сум</h5>
+                                <span>{{ $todayIncome['Туловлар'] }} та тулов</span>
+                            </div>
+                            <i class="fa fa-calendar-check bg-icon"></i>
+                        </a>
+                    </div>
+
+                </div>
             </div>
             <div class="clearfix"> </div>
         </div>
@@ -144,36 +194,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-4">
             <div class="card mb-3">
-                <div class="card-header bg-green text-white">
-                    <div class="float-left">
-                        <h4 class="card-title"><i class="fa fa-dollar-sign"></i> Бугунги тушум</h4>
-                    </div>
-                </div>
-                <div class="card-body p-0">
-                    <div class="">
-                        @if(count($dailyIncome))
-                            @foreach($dailyIncome as $income)
-                                {{ $income->payment_method }}
-                            @endforeach
-                        @else
-                            <div class="align-center">
-                                <h2>
-                                    <i class="fa fa-search"></i> Бу кун учун тушум йук!
-                                </h2>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="card">
                 <div class="card-header bg-info text-white">
                     <div class="float-left">
                         <h4 class="card-title"><i class="fa fa-credit-card"></i> Бугунги тулов</h4>
@@ -217,6 +238,59 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-4">
+            <div class="card mb-3">
+                <div class="card-header bg-green text-white">
+                    <div class="float-left">
+                        <h4 class="card-title"><i class="fa fa-dollar-sign"></i> Бугунги тушум</h4>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="">
+                        @if(count($todayIncome))
+                            <ul class="list-group">
+                                @foreach($todayIncome as $key => $val)
+                                    <li class="list-group-item list-group-item-success">{{ $key }} - <b>{{ number_format($val, 0, '', ' ') }}</b></li>
+                                @endforeach
+                            </ul>
+
+                        @else
+                            <div class="align-center">
+                                <h2>
+                                    <i class="fa fa-search"></i> Бу кун учун тушум йук!
+                                </h2>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header bg-green text-white">
+                    <div class="float-left">
+                        <h4 class="card-title"><i class="fa fa-calendar-check"></i> Бу ойлик тушум</h4>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="">
+                        @if(count($thisMonthIncome))
+                            <ul class="list-group">
+                                @foreach($thisMonthIncome as $key => $val)
+                                    <li class="list-group-item list-group-item-success">{{ $key }} - <b>{{ number_format($val, 0, '', ' ') }}</b></li>
+                                @endforeach
+                            </ul>
+
+                        @else
+                            <div class="align-center">
+                                <h2>
+                                    <i class="fa fa-search"></i> Бу ой учун тушум йук!
+                                </h2>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>
 @endsection
