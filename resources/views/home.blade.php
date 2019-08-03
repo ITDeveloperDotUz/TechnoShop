@@ -12,7 +12,7 @@
 
     <div class="row">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row align-content-center">
                 <div class="col-md-3">
                         <div class="r3_counter_box p-0 yellow-gradient">
                             <a class="" href="{{ route('clients.create') }}">
@@ -95,30 +95,10 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="r3_counter_box p-0 danger-gradient">
-                        <a class="" href="{{ route('orders.create') }}">
-                            <div class="stats">
-                                <i class="fa fa-shopping-basket icon-rounded"></i>
-                            </div>
-                        </a>
-                        <a class="" href="{{ route('orders.index') }}">
-                            <div class="stats">
-                                <h5><strong>{{ $orders }}</strong> та</h5>
-                                <span>Буюртма</span>
-                            </div>
-                            <i class="fa fa-shopping-basket bg-icon"></i>
-                        </a>
-                    </div>
-                </div>
+
                 <div class="col-md-3">
                     <div class="r3_counter_box p-0 green-gradient">
-                        <a class="" href="#">
-                            <div class="stats">
-                                <i class="float-left fa fa-money-check-alt dollar2 icon-rounded"></i>
-                            </div>
-                        </a>
-                        <a class="" href="{{ url('payments/get/today') }}">
+                        <a class="" href="{{ route('payments.income', 'today') }}">
                             <div class="stats">
                                 <h5><strong>{{ number_format($todayIncome['Жами'], 0, '', ' ') }}</strong> сум</h5>
                                 <span>{{ $todayIncome['Туловлар'] }} та тулов</span>
@@ -130,15 +110,10 @@
                 </div>
                 <div class="col-md-3">
                     <div class="r3_counter_box p-0 green-gradient">
-                        <a class="" href="#">
+                        <a class="" href="{{ route('payments.income', 'this_month') }}">
                             <div class="stats">
-                                <i class="float-left fa fa-calendar-check dollar2 icon-rounded"></i>
-                            </div>
-                        </a>
-                        <a class="" href="{{ url('payments/get/today') }}">
-                            <div class="stats">
-                                <h5><strong>{{ number_format($todayIncome['Жами'], 0, '', ' ') }}</strong> сум</h5>
-                                <span>{{ $todayIncome['Туловлар'] }} та тулов</span>
+                                <h5><strong>{{ number_format($thisMonthIncome['Жами'], 0, '', ' ') }}</strong> сум</h5>
+                                <span>{{ $thisMonthIncome['Туловлар'] }} та тулов</span>
                             </div>
                             <i class="fa fa-calendar-check bg-icon"></i>
                         </a>

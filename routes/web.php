@@ -53,6 +53,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('payments/{id}/order', 'PaymentController@GetByOrder');
     Route::get('payments/{get}/daily', 'PaymentController@daily');
     Route::get('payments/{get}/expired', 'PaymentController@expired');
+    Route::post('payments/{type}/incomes', 'PaymentController@income')->name('payments.incomes');
+    Route::get('payments/{type}/income', 'PaymentController@income')->name('payments.income');
     Route::post('payments/{id}/pay', 'PaymentController@pay');
 
 

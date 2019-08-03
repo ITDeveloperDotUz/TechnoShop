@@ -7,7 +7,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title"><i class="fa fa-file-contract"></i> Буюртмалар</h4>
+                <h4 class="card-title"><i class="fa fa-money-check"></i> Туловлар</h4>
             </div>
             <div class="card-body">
                 <div class="b-table-stacked-lg">

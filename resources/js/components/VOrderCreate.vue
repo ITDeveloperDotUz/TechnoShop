@@ -173,7 +173,7 @@
                     this.sentData
                 ).then((response) => {
                     this.id = response.data
-                    console.log(response.data)
+                    //console.log(response.data)
                     //document.location = '/orders';
                 }).catch(function (error) {
                     console.log(error);
@@ -183,14 +183,14 @@
                 axios.get(
                     '/orders/'+this.id+'/confirm',
                 ).then((response) => {
-                    console.log(response.data)
+                    //console.log(response.data)
 
-                    // if(response.data.success){
-                    //     document.getElementById('confirmed').disabled = true
-                    //     document.getElementById('save').disabled = true
-                    // } else {
-                    //     alert(response.data.message);
-                    // }
+                    if(response.data.success){
+                        document.getElementById('confirmed').disabled = true
+                        document.getElementById('save').disabled = true
+                    } else {
+                        alert(response.data.message);
+                    }
                 });
             },
             validate(){

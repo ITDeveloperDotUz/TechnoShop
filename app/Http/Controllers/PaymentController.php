@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Payment;
 use App\Order;
 use App\Client;
-use App\Income;
 
 class PaymentController extends Controller
 {
@@ -73,6 +72,37 @@ class PaymentController extends Controller
         $payments = Payment::getDebts();
         //dd(Payment::where([['payment_method', '=', false],['payment_date', '<=', date('Y-m-d', time())]])->toSql());
         return view('payment.index', ['payments' => $payments]);
+    }
+
+    public function income($type = '', Request $request){
+        if($type == 'today' && $request->method() == 'GET'){
+            $payments = Payment::getCalculation(
+                [
+                    'start' => date('Y-m-d'),
+                    'end' => date('Y-m-d')
+                ],
+                true
+            );
+        } elseif ($type == 'this_month' && $request->method() == 'GET'){
+            $payments = Payment::getCalculation(
+                [
+                    'start' => date('Y-m-01'),
+                    'end' => date('Y-m-d')
+                ],
+                true
+            );
+        } elseif ($request->method() == 'POST'){
+            $payments = Payment::getCalculation(
+                [
+                    'start' => $request->input('start'),
+                    'end' => $request->input('end')
+                ],
+                true
+            );
+        }
+
+
+        return view('payment.filtered', ['payments' => $payments['detailed'], 'info' => $payments['info']]);
     }
 
     /**
