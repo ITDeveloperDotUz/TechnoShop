@@ -65,16 +65,16 @@ class Payment extends Model
     public static function getCalculation($params, $datailed = false){
         $payments = (Payment::whereBetween('payment_date', [$params['start'], $params['end']])
             ->where('payment_method', false)
-            ->paginate(15)
         );
         $pay_met = $payments
+            ->get()
             ->groupBy('payment_method')
             ->toArray();
         $info = static::calculate($pay_met);
         if(!$datailed){
             return $info;
         } else {
-            return ['detailed' => $payments, 'info' => $info];
+            return ['detailed' => $payments->paginate(15), 'info' => $info];
         }
     }
 

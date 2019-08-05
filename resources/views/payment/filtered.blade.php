@@ -94,7 +94,6 @@
                                 </tr>
                             @endforeach
                             </tbody>
-                            {{ $payments->links() }}
                         </table>
                     @else
                         <div class="align-center">
